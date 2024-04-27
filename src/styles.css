@@ -1,4 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
 
+:root {
+    --primary-main-green: #005f40;
+    --primary-main-white: #ffffff;
+    --secondary-green:#337d50;
+    --dark-brown:#743e31;
+    --light-brown:#9a5d4e;
+    --olive-drav-color:#9d7c58;
+
+    --font-family: 'Poppins', sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: var(--primary-main-white);
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+    margin: 0;
+    font-family: var(--font-family) !important;
+    background-color: var(--primary-main-white) !important;
+}
+
+.green-bg {
+    background-color: var(--primary-main-green) !important;
+    color: var(--primary-main-white) !important;
+    font-family: var(--font-family) !important;
+}
+
+.brown-bg {
+    background-color: var(--dark-brown) !important;
+    color: var(--primary-main-white) !important;
+    font-family: var(--font-family) !important;
+}

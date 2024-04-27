@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  serverBasePath: undefined
-  };
+    production: true,
+    serverBasePath: undefined
+};
