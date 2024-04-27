@@ -4,7 +4,7 @@
             <mat-grid-tile *ngFor="let tile of tiles">
                 <div class="dashboard-content">
                     <div>
-                        <img [src]="tile.img" class="dashboard-img">
+                        <img [src]="tile.img" [alt]="tile.text" class="dashboard-img">
                     </div>
                     <div>
                         <button mat-flat-button [routerLink]="tile.link" class="green-bg">{{tile.text}}</button>
