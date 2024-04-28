@@ -1,8 +1,9 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule, Component, ViewChild } from "@angular/core";
+import { NgModule, Component, OnInit, ViewChild } from "@angular/core";
 import { NgApexchartsModule } from "ng-apexcharts";
-import { ChartComponent } from "ng-apexcharts";
-import { ApexNonAxisChartSeries, ApexResponsive, ApexChart } from "ng-apexcharts";
+import { ChartComponent, ApexNonAxisChartSeries, ApexResponsive, ApexChart } from "ng-apexcharts";
+import { MatCardModule } from '@angular/material/card';
+import {CropsService} from "../../services/crops.service";
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -16,18 +17,18 @@ export type ChartOptions = {
   templateUrl: './crops-statistics.component.html',
   styleUrls: ['./crops-statistics.component.css']
 })
-export class CropsStatisticsComponent {
+export class CropsStatisticsComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
 
-  constructor() {
+  constructor(private cropService: CropsService) {
     this.chartOptions = {
-      series: [44, 55, 13, 43, 22], // Ensure series is always defined
+      series: [],
       chart: {
-        width: 380,
+        width: 600,
         type: "pie"
       },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      labels: [],
       responsive: [
         {
           breakpoint: 480,
@@ -43,12 +44,25 @@ export class CropsStatisticsComponent {
       ]
     };
   }
+
+
+
+  ngOnInit() {
+    this.cropService.getAll().subscribe((response: any) => {
+      const counts = response.reduce((acc: { [key: string]: number }, crop: any) => {
+        acc[crop.name] = (acc[crop.name] || 0) + 1;
+        return acc;
+      }, {});
+      this.chartOptions.labels = Object.keys(counts);
+      this.chartOptions.series = Object.values(counts);
+    });
+   }
 }
 
 @NgModule({
   declarations: [CropsStatisticsComponent],
-  imports: [BrowserModule, NgApexchartsModule],
-  providers: [],
+  imports: [BrowserModule, NgApexchartsModule, MatCardModule],
+  providers: [CropsService],
   bootstrap: [CropsStatisticsComponent]
 })
 export class AppModule { }

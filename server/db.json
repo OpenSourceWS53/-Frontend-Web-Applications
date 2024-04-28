@@ -1,20 +1,40 @@
 {
   "users":[
     {
-      "id": 1,
+      "id": "1",
       "name": "John Doe",
       "country": "USA",
       "city": "New York",
       "email": "Jhon@hmail.com",
-      "password": "123456"
+      "password": "123456",
+      "crops": [
+        {
+          "type": "limones",
+          "quantity": 20
+        },
+        {
+          "type": "cacao",
+          "quantity": 20
+        }
+      ]
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Diego Alcantara",
       "country": "Peru",
       "city": "Lima",
       "email": "diego@gmail.com",
-      "password": "123456"
+      "password": "123456",
+      "crops": [
+        {
+          "type": "limones",
+          "quantity": 15
+        },
+        {
+          "type": "cacao",
+          "quantity": 25
+        }
+      ]
     }
   ],
   "crops": [
@@ -64,6 +84,16 @@
       "harvestDate": "2025-01-19",
       "phenologicalPhase": "Germination",
       "plantedArea": 1500,
+      "image": "",
+      "description": "Rice is the seed of the grass species Oryza sativa (Asian rice) or less commonly Oryza glaberrima (African rice). As a cereal grain, it is the most widely consumed staple food for a large part of the world's human population, especially in Asia and Africa. It is the agricultural commodity with the third-highest worldwide production (rice, 741.5 million tonnes in 2014), after sugarcane (1.9 billion tonnes) and maize (1.0 billion tonnes)."
+    },
+    {
+      "id": 6,
+      "name": "Rice",
+      "plantedDate": "2024-09-19",
+      "harvestDate": "2025-02-19",
+      "phenologicalPhase": "Sprouting",
+      "plantedArea": 20,
       "image": "",
       "description": "Rice is the seed of the grass species Oryza sativa (Asian rice) or less commonly Oryza glaberrima (African rice). As a cereal grain, it is the most widely consumed staple food for a large part of the world's human population, especially in Asia and Africa. It is the agricultural commodity with the third-highest worldwide production (rice, 741.5 million tonnes in 2014), after sugarcane (1.9 billion tonnes) and maize (1.0 billion tonnes)."
     }
