@@ -14,8 +14,4 @@ import {NgOptimizedImage} from "@angular/common";
 })
 export class AppComponent {
   title = 'frontend-web-applications';
-  options = [
-    { path: '/home', title: 'Home'},
-    { path: '/mycrops', title:'MyCrops1'}
-  ]
 }
