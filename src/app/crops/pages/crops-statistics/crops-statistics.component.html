@@ -1,1 +1,8 @@
-<p>crops-statistics works!</p>
+<div *ngIf="chartOptions.series && chartOptions.chart && chartOptions.responsive">
+  <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [responsive]="chartOptions.responsive"
+    [labels]="chartOptions.labels"
+  ></apx-chart>
+</div>

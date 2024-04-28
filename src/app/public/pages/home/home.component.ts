@@ -17,7 +17,7 @@ import {RouterLink} from "@angular/router";
 })
 export class HomeComponent {
   tiles = [
-    {img: 'assets/images/statical.png', text: 'Statical Reports', link: '/'},
+    {img: 'assets/images/statical.png', text: 'Statical Reports', link: '/statistics'},
     {img: 'assets/images/registration.png', text: 'Crop Registration', link: '/'},
     {img: 'assets/images/forum.png', text: 'Consultation Forum', link: '/'},
     {img: 'assets/images/history.png', text: 'Crops History', link: '/mycrops'}
