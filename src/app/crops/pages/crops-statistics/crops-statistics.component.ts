@@ -45,9 +45,7 @@ export class CropsStatisticsComponent implements OnInit {
     };
   }
 
-
-
-  ngOnInit() {
+  private getAllCrops() {
     this.cropService.getAll().subscribe((response: any) => {
       const counts = response.reduce((acc: { [key: string]: number }, crop: any) => {
         acc[crop.name] = (acc[crop.name] || 0) + 1;
@@ -56,7 +54,11 @@ export class CropsStatisticsComponent implements OnInit {
       this.chartOptions.labels = Object.keys(counts);
       this.chartOptions.series = Object.values(counts);
     });
-   }
+  };
+
+  ngOnInit() {
+    this.getAllCrops();
+  }
 }
 
 @NgModule({
