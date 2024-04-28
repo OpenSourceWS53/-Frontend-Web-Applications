@@ -1,0 +1,41 @@
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.center-text{
+    text-align: center;
+}
+.custom-card {
+  color: #fff;
+  text-align: center;
+  padding: 2em;
+  width: auto;
+  box-sizing: border-box;
+  border-radius: 10px;
+  margin-top: 2em;
+  margin-left: 2em;
+  margin: 1em;
+  background-color: #005F40;
+}
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mat-title {
+  font-size: 32px;
+  font-weight: 600;
+}
+p{
+ font-size: 18px;
+  font-weight: 500;
+}
+.chart{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  margin-top:3em;
+  margin-bottom:3em;
+}
