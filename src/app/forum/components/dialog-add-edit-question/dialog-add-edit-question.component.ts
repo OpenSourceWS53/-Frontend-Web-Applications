@@ -37,7 +37,7 @@ import {Question} from "../../model/question.entity";
   templateUrl: './dialog-add-edit-question.component.html',
   styleUrl: './dialog-add-edit-question.component.css'
 })
-export class DialogAddEditQuestionComponent {
+export class DialogAddEditQuestionComponent implements OnInit {
   titleAction: string = 'Add';
   buttonAction: string = 'Create';
   formQuestion: FormGroup;
