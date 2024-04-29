@@ -17,7 +17,9 @@
       The most registered crop in the app during the last month was the {{mostRegisteredCrop}}.
     </p>
   </mat-card-content>
-
+    <mat-card-actions class="center-content">
+      <button mat-button (click)="openDialog()" class="button-pop-up">Show Details</button>
+    </mat-card-actions>
 </mat-card>
 
 
@@ -39,6 +41,18 @@
         The most controlled crop in the app during the last month was the {{mostControlledCrop}}.
       </p>
     </mat-card-content>
-
+    <mat-card-actions class="center-content">
+      <button mat-button (click)="openControlledCropDialog()" class="button-pop-up">Show Details</button>
+    </mat-card-actions>
   </mat-card>
 </div>
+
+<ng-template #registeredCropDialog>
+  <h1 mat-dialog-title>Most Registered Crop</h1>
+  <div mat-dialog-content>{{mostRegisteredCrop}}</div>
+</ng-template>
+
+<ng-template #controlledCropDialog>
+  <h1 mat-dialog-title>Most Controlled Crop</h1>
+  <div mat-dialog-content>{{mostControlledCrop}}</div>
+</ng-template>

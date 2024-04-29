@@ -39,3 +39,8 @@ p{
   margin-top:3em;
   margin-bottom:3em;
 }
+
+.button-pop-up {
+  background-color: white;
+  color: black;
+}

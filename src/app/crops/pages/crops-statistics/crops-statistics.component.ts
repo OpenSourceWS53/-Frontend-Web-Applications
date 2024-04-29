@@ -4,8 +4,9 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { ChartComponent, ApexNonAxisChartSeries, ApexResponsive, ApexChart } from "ng-apexcharts";
 import { MatCardModule } from '@angular/material/card';
 import { CropsService } from "../../services/crops.service";
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ControlsToCropService } from "../../services/controls-to-crop.service";
+import { TemplateRef } from '@angular/core';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -21,12 +22,14 @@ export type ChartOptions = {
 })
 export class CropsStatisticsComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
+  @ViewChild('registeredCropDialog') registeredCropDialog!: TemplateRef<any>;
+  @ViewChild('controlledCropDialog') controlledCropDialog!: TemplateRef<any>;
   public chartOptions: Partial<ChartOptions>;
-  public controlChartOptions: Partial<ChartOptions>; // Nuevas opciones para el gráfico de controles
+  public controlChartOptions: Partial<ChartOptions>;
   public mostRegisteredCrop: string = '';
   public mostControlledCrop: string = '';
 
-  constructor(private cropService: CropsService, private controlsService: ControlsToCropService) { // Inyecta ControlsToCropService
+  constructor(private cropService: CropsService, private controlsService: ControlsToCropService, public dialog: MatDialog) { // Inyecta ControlsToCropService
     this.chartOptions = {
       series: [],
       chart: {
@@ -54,7 +57,7 @@ export class CropsStatisticsComponent implements OnInit {
       series: [],
       chart: {
         width: 500,
-        type: "pie" // Cambiado de "pie" a "bar"
+        type: "pie"
       },
       labels: [],
       responsive: [
@@ -109,11 +112,27 @@ export class CropsStatisticsComponent implements OnInit {
     this.getAllCrops();
     this.getAllControls();
   }
+
+ openDialog(): void {
+     this.dialog.open(this.registeredCropDialog, {
+       data: {
+         crop: this.mostRegisteredCrop
+       }
+     });
+   }
+
+ openControlledCropDialog(): void {
+     this.dialog.open(this.controlledCropDialog, {
+       data: {
+         crop: this.mostControlledCrop
+       }
+     });
+   }
 }
 
 @NgModule({
   declarations: [CropsStatisticsComponent],
-  imports: [BrowserModule, NgApexchartsModule, MatCardModule],
+  imports: [BrowserModule, NgApexchartsModule, MatCardModule,MatDialogModule],
   providers: [CropsService, ControlsToCropService],
   bootstrap: [CropsStatisticsComponent]
 })
