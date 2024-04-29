@@ -28,15 +28,39 @@ font-size: 24px;
 color: #FFFFFF;
 background-color: #005F40;
 }
+#imageinfo-crop{
+display:flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+width: 25% !important;
+}
 #info-1{
 display:flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
 }
 #advices{
   color:#FFFFFF;
   background-color: #005F40;
 }
 /*CROP CARE*/
-
 .demo-inline-calendar-card {
   width: 300px;
+}
+#column-1{
+  width: 50%;
+}
+#phases{
+display:flex;
+}
+.cartita1{
+width: 50% !important;
+}
+#phases-1{
+  font-weight: normal;
+}
+#phases-2 {
+  font-weight: bold;
 }

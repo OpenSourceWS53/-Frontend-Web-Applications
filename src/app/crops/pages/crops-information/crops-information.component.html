@@ -3,37 +3,42 @@
 <mat-tab-group animationDuration="0ms">
   <mat-tab label="General Information">
     <div id="info-1">
-    <h2>Arroz</h2>
-    <img src="favicon.ico">
-    <table>
+      <div id="imageinfo-crop">
+      <h2>Arroz</h2>
+      <img src="favicon.ico">
+      </div>
+    <table id="gen-info-table">
       <tr>
         <td class="sub">Name of crop</td>
-        <td class="con">Insert</td>
+        <td class="con">Rice</td>
       </tr>
       <tr>
         <td class="sub">Date created</td>
-        <td class="con">Insert</td>
+        <td class="con">19/02/2004</td>
       </tr>
       <tr>
         <td class="sub">Planted Area</td>
-        <td class="con">Insert</td>
+        <td class="con">100</td>
       </tr>
     </table>
     </div>
-    <p id="advices">El arroz es INSERT</p>
+    <p id="advices">Rice (Oryza sativa) is an annual herbaceous crop that requires well-drained soils and abundant water for growth. It is grown in a variety of climatic conditions and its growth cycle includes stages such as germination, flowering and grain maturation. The mature grains are harvested and can be processed into refined white rice or brown rice. It is an important staple food worldwide.</p>
 
   </mat-tab>
 
-  <mat-tab label="Crop care">
-    <h2>Phase: <></h2>
-    <h2>Phase Change: <></h2>
+  <mat-tab label="Crop care" class="crop-care">
+    <div id="column-1">
+      <div id="phases">
+      <h2 id="phases-1">Phase: <></h2>
+      <h2 id="phases-2">Phase Change: <></h2>
+      </div>
 
       <mat-card class="demo-inline-calendar-card">
         <mat-calendar [(selected)]="selected"></mat-calendar>
       </mat-card>
       <p>Selected date: {{selected}}</p>
-
-    <mat-card>
+    </div>
+    <mat-card class="cartita1">
     <mat-card-content>
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
@@ -60,6 +65,7 @@
         </table>
       </mat-card-content>
     </mat-card>
+
   </mat-tab>
 
   <mat-tab label="Controls">Controls</mat-tab>
