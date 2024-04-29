@@ -19,7 +19,7 @@ export class HomeComponent {
   tiles = [
     {img: 'assets/images/statical.png', text: 'Statical Reports', link: '/statistics'},
     {img: 'assets/images/registration.png', text: 'Crop Registration', link: '/mycrops'},
-    {img: 'assets/images/forum.png', text: 'Consultation Forum', link: '/'},
+    {img: 'assets/images/forum.png', text: 'Consultation Forum', link: '/forum'},
     {img: 'assets/images/history.png', text: 'Crops History', link: '/history'}
   ];
 }
