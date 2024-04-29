@@ -26,7 +26,7 @@ export class CropsInformationComponent {
   selected: Date | null;
 
   care: Array<Care> = [];
-    displayedColumns: string[] = ['id', 'date', 'suggestion'];
+    displayedColumns: string[] = ['date', 'suggestion'];
     dataSource: any;
 
   constructor(private suggestionsService: SuggestionsService) {
