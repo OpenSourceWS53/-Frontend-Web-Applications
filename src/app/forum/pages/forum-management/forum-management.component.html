@@ -1,0 +1,10 @@
+<div>
+  <h1>Consultation Forum</h1>
+  <div class="center-button">
+    <button mat-flat-button class="brown-bg" (click)="dialogNewQuestion()" >Ask Your colleagues!</button>
+  </div>
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab class="custom-tab" label="Community"> <app-community-question-list/> </mat-tab>
+    <mat-tab class= "custom-tab" label="My Questions"> <app-user-question-list/> </mat-tab>
+  </mat-tab-group>
+</div>
