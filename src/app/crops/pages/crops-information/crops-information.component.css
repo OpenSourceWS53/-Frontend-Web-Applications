@@ -1,0 +1,42 @@
+.mat-tab-group {
+  margin-bottom: 48px;
+}
+h1{
+font-size:45px;
+color: #000;
+}
+h2{
+font-size:24px;
+color: #000;
+}
+/*GENERAL INFORMATION*/
+
+td{
+color: #000;
+}
+p{
+color: #000;
+font-size:24px;
+}
+.sub{
+background-color: #D9D9D9;
+}
+.sub,.con{
+font-size: 24px;
+}
+.con{
+color: #FFFFFF;
+background-color: #005F40;
+}
+#info-1{
+display:flex;
+}
+#advices{
+  color:#FFFFFF;
+  background-color: #005F40;
+}
+/*CROP CARE*/
+
+.demo-inline-calendar-card {
+  width: 300px;
+}
