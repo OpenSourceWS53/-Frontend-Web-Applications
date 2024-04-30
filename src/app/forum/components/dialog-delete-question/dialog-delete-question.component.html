@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Delete Question </h2>
+<mat-dialog-content>
+  Do you want to delete the question   "{{dataQuestion.ask}}"?
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close class="green-bg">Cancel</button>
+  <button mat-button class="green-bg" (click)="deleteQuestion()">Delete</button>
+</mat-dialog-actions>

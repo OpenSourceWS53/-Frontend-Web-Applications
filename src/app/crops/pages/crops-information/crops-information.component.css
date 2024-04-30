@@ -1,0 +1,66 @@
+.mat-tab-group {
+  margin-bottom: 48px;
+}
+h1{
+font-size:45px;
+color: #000;
+}
+h2{
+font-size:24px;
+color: #000;
+}
+/*GENERAL INFORMATION*/
+
+td{
+color: #000;
+}
+p{
+color: #000;
+font-size:24px;
+}
+.sub{
+background-color: #D9D9D9;
+}
+.sub,.con{
+font-size: 24px;
+}
+.con{
+color: #FFFFFF;
+background-color: #005F40;
+}
+#imageinfo-crop{
+display:flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+width: 25% !important;
+}
+#info-1{
+display:flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+}
+#advices{
+  color:#FFFFFF;
+  background-color: #005F40;
+}
+/*CROP CARE*/
+.demo-inline-calendar-card {
+  width: 300px;
+}
+#column-1{
+  width: 50%;
+}
+#phases{
+display:flex;
+}
+.cartita1{
+width: 50% !important;
+}
+#phases-1{
+  font-weight: normal;
+}
+#phases-2 {
+  font-weight: bold;
+}
