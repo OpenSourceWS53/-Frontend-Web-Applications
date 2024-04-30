@@ -24,7 +24,7 @@ export class CropsManagementComponent implements OnInit, AfterViewInit {
 // Attributes
   cropData: Crop;
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ['name', 'plantedDate', 'harvestDate', 'phenologicalPhase', 'plantedArea'];
+  displayedColumns: string[] = ['name', 'plantedDate', 'harvestDate', 'phenologicalPhase', 'plantedArea','actions'];
   @ViewChild(MatPaginator, { static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false}) sort!: MatSort;
   isEditMode: boolean;
