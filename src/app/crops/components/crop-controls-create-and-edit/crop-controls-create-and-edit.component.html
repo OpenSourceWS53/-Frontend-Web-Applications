@@ -1,0 +1,23 @@
+<div class="form-section">
+  <button mat-raised-button (click)="showForm = true" *ngIf="!showForm">Add Control</button>
+
+  <form *ngIf="showForm" (submit)="onSubmit()" #controlForm='ngForm' class="form-row">
+    <mat-form-field>
+      <input matInput placeholder="Leave" name="leave" required [(ngModel)]="control.leave">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Stem" name="stem" required [(ngModel)]="control.stem">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Soil" name="soil" required [(ngModel)]="control.soil">
+    </mat-form-field>
+
+    <ng-container *ngIf="editMode; else elseTemplate">
+      <button mat-raised-button color="primary">Update</button>
+      <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <button mat-raised-button>Add Control</button>
+    </ng-template>
+  </form>
+</div>

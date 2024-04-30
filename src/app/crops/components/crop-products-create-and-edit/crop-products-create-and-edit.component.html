@@ -1,0 +1,18 @@
+<div class="form-section">
+  <button mat-raised-button (click)="showForm = true" *ngIf="!showForm">Add Product</button>
+
+  <form *ngIf="showForm" (submit)="onSubmit()" #productForm='ngForm' class="form-row">
+    <mat-form-field>
+      <input matInput placeholder="Leave" name="type" required [(ngModel)]="product.type">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Stem" name="name" required [(ngModel)]="product.name">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Soil" name="quantity" required [(ngModel)]="product.quantity">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary">{{ editMode ? 'Update' : 'Add' }}</button>
+    <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+  </form>
+</div>
