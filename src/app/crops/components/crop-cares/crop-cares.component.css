@@ -1,0 +1,17 @@
+.demo-inline-calendar-card {
+  width: 300px;
+}
+
+#myGridList {
+  width: 100%; /* Ajusta el ancho según sea necesario */
+}
+
+#calendarTile {
+  position: relative;
+  width: 100%; /* Ajusta el ancho según sea necesario */
+  height: 100%; /* Ajusta la altura según sea necesario */
+}
+
+.card-information{
+  margin-top: 20px;
+}
