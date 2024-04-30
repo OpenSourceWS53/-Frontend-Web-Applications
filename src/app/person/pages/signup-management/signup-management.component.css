@@ -1,0 +1,39 @@
+.card{
+  border: none;
+  width: 500px;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  background: hsl(122, 75%, 92%);
+  background: linear-gradient(90deg, hsl(132, 52%, 45%) 0%, hsl(103, 44%, 54%) 0%, hsl(148, 77%, 72%) 100%);
+}
+.card label h1,h6{
+  color: #fff;
+}
+label {
+  color: #fff;
+}
+
+.mat-stepper-vertical {
+  margin-top: 8px;
+}
+
+.mat-mdc-form-field {
+  margin-top: 16px;
+}
+.example-tel-input-container {
+  display: flex;
+}
+
+.example-tel-input-element {
+  border: none;
+  background: none;
+  padding: 0;
+  outline: none;
+  font: inherit;
+  text-align: center;
+  color: currentcolor;
+}
+

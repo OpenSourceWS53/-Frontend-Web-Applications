@@ -1,12 +1,11 @@
-<mat-toolbar class="green-bg">
-    <img src="assets/images/ChaquitacllaLogoNuevo.png" alt="logo de la empresa" class="logo"/>
-      <div class="button-container">
-        <button mat-button class="green-bg custom-button" routerLink="/home">Control Panel</button>
-        <button mat-button class="green-bg custom-button" routerLink="/mycrops">Register Crop</button>
-    </div>
-    <div class="user-info">
-        <mat-icon>account_circle</mat-icon>
-        <span>Roberto Juarez</span>
-    </div>
+<mat-toolbar color="primary">
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Creation</span>
+  <span class="mat-spacer"></span>
+  @for(option of options; track option.title) {
+    <a mat-button [routerLink]="option.path">{{ option.title }}</a>
+  }
 </mat-toolbar>
 <router-outlet/>

@@ -1,17 +1,23 @@
 import { Component } from '@angular/core';
-import {RouterLink, RouterOutlet} from '@angular/router';
-import {MatToolbar} from "@angular/material/toolbar";
-import {MatButton} from "@angular/material/button";
-import {MatIcon} from "@angular/material/icon";
-import {NgOptimizedImage} from "@angular/common";
+import { RouterOutlet } from '@angular/router';
 
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatToolbar, MatButton, RouterLink, MatIcon, NgOptimizedImage],
+  imports: [RouterOutlet,RouterLink,MatIconModule,MatButtonModule,MatToolbarModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'frontend-web-applications';
+  title = 'Login Management System';
+  options = [
+    { path: '/home', title: 'Home'},
+    { path: '/person/logins', title: 'Login'},
+    { path: '/person/signups', title: 'Signup'},
+    {path:'/about', title: 'About'}
+  ]
 }
