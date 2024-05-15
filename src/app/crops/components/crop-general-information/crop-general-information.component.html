@@ -1,0 +1,47 @@
+<div>
+  <div>
+    <mat-grid-list cols="2" rowHeight="300px">
+      <mat-grid-tile><img src="" alt="Imgen de cultivo"></mat-grid-tile>
+      <mat-grid-tile>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="green-bg"> Name of Coup</th>
+            <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef class="green-bg"> Date created</th>
+            <td mat-cell *matCellDef="let element"> {{ element.plantedDate }}</td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="area">
+            <th mat-header-cell *matHeaderCellDef class="green-bg"> Planted Area(m2)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.plantedArea }}</td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+  <mat-divider style="border-top: 1px solid black;"></mat-divider>
+
+  <div>
+    <mat-card class="green-bg card-information">
+      <mat-card-content>
+        <p>
+          {{ data.description}}
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
