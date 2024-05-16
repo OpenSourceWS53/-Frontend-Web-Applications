@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialog} from "@angular/material/dialog";
@@ -7,6 +7,7 @@ import {
   CommunityQuestionListComponent
 } from "../../components/community-question-list/community-question-list.component";
 import {UserQuestionListComponent} from "../../components/user-question-list/user-question-list.component";
+import {Question} from "../../model/question.entity";
 
 
 @Component({
@@ -18,16 +19,29 @@ import {UserQuestionListComponent} from "../../components/user-question-list/use
   styleUrl: './forum-management.component.css'
 })
 export class ForumManagementComponent {
+  @Output() questionCreated = new EventEmitter<Question>();
   constructor(public dialog: MatDialog) {
   }
-  dialogNewQuestion(){
-    this.dialog.open(DialogAddEditQuestionComponent,{
-      disableClose: true,
-      width: '500px',
-    }).afterClosed().subscribe(result =>{
-      if(result){
 
+  openDialog(question?: Question): void {
+    const dialogRef = this.dialog.open(DialogAddEditQuestionComponent, {
+      width: '500px',
+      data: {
+        question: question || null,
+        isEditMode: false
       }
     });
+
+    dialogRef.afterClosed().subscribe((result: Question) => {
+      if (result) {
+        this.questionCreated.emit(result);
+      }
+
+    });
+  }
+
+  // UI Event Handlers
+  showCreateForm() {
+    this.openDialog();
   }
 }
