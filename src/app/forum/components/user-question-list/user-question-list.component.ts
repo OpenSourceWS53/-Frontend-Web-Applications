@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
@@ -12,7 +12,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {AnswerListComponent} from "../answer-list/answer-list.component";
 import {DialogAddEditQuestionComponent} from "../dialog-add-edit-question/dialog-add-edit-question.component";
 import {MatDialog} from "@angular/material/dialog";
-import {ForumManagementComponent} from "../../pages/forum-management/forum-management.component";
 
 
 @Component({
@@ -25,64 +24,32 @@ import {ForumManagementComponent} from "../../pages/forum-management/forum-manag
 export class UserQuestionListComponent implements AfterViewInit, OnInit {
 
   // Attributes
+
+  @Input() isEditMode = false;
+  @Input() dataSource!: MatTableDataSource<any>;
   questionData: Question;
-  selectedQuestion: Question;
-  dataSource!: MatTableDataSource<any>;
+  @Output() questionAdded = new EventEmitter<Question>();
+  @Output() questionUpdated = new EventEmitter<Question>();
+  @Output() questionDeleted = new EventEmitter<Question>();
+  @Output() editCanceled = new EventEmitter();
+  @Output() editItem = new EventEmitter<Question>();
+  @Output() getQuestions = new EventEmitter();
+
   displayedColumns: string[] = ['Ask', 'Category', 'Date', 'Actions'];
   @ViewChild(MatPaginator, { static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false}) sort!: MatSort;
-  isEditMode: boolean;
+
   isQuestionSelect: boolean;
+  selectedQuestion: Question;
 
   // Constructor
-  constructor(private questionsService: QuestionsService,private dialog: MatDialog,private forumManagement: ForumManagementComponent) {
-    this.isEditMode = false;
+  constructor(private questionsService: QuestionsService,private dialog: MatDialog) {
     this.isQuestionSelect = false;
-    this.questionData = {} as Question;
     this.selectedQuestion = {} as Question;
-    this.dataSource = new MatTableDataSource<any>();
-  }
-
-  // Private Methods
-  private resetEditState(): void {
-    this.isEditMode = false;
     this.questionData = {} as Question;
   }
 
-  // CRUD Actions
 
-  private getAllQuestions() {
-    this.questionsService.getByIdParam('id',10).subscribe((response: any) => {
-      this.dataSource.data = response;
-    });
-  };
-
-  private createQuestion() {
-    this.questionsService.create(this.questionData).subscribe((response: any) => {
-      this.dataSource.data.push({...response});
-      this.dataSource.data = this.dataSource.data.map((question: Question) => { return question; });
-    });
-  };
-
-  private updateQuestion() {
-    let questionToUpdate = this.questionData;
-    this.questionsService.update(this.questionData.id, questionToUpdate).subscribe((response: any) => {
-      this.dataSource.data = this.dataSource.data.map((question: Question) => {
-        if (question.id === response.id) {
-          return response;
-        }
-        return question;
-      });
-    });
-  };
-
-  private deleteQuestion(questionId: number) {
-    this.questionsService.delete(questionId).subscribe(() => {
-      this.dataSource.data = this.dataSource.data.filter((question: Question) => {
-        return question.id !== questionId ? question : false;
-      });
-    });
-  };
 
   openDialog(question?: Question): void {
     const dialogRef = this.dialog.open(DialogAddEditQuestionComponent, {
@@ -96,20 +63,15 @@ export class UserQuestionListComponent implements AfterViewInit, OnInit {
     dialogRef.afterClosed().subscribe((result: Question) => {
       if (result) {
         if (this.isEditMode) {
-          this.onQuestionUpdated(result);
+          this.questionUpdated.emit(result);
         } else {
-          this.onQuestionAdded(result);
+          this.questionAdded.emit(result);
         }
       } else {
-        this.onCancelEdit();
+        this.editCanceled.emit();
       }
-      this.getAllQuestions();
+      this.getQuestions.emit();
     });
-  }
-
-  // UI Event Handlers
-  showCreateForm() {
-    this.openDialog();
   }
 
   onEditItem(element: Question) {
@@ -119,28 +81,10 @@ export class UserQuestionListComponent implements AfterViewInit, OnInit {
   }
 
   onDeleteItem(element: Question) {
-    this.deleteQuestion(element.id);
+    this.questionDeleted.emit(element);
   }
+  // UI Event Handlers
 
-  onCancelEdit() {
-    this.resetEditState();
-    this.getAllQuestions();
-  }
-
-  onQuestionAdded(element: Question) {
-    this.questionData = element;
-    this.questionData.id = 11;
-    this.questionData.date = new Date();
-    console.log(this.questionData);
-    this.createQuestion();
-    this.resetEditState();
-  }
-
-  onQuestionUpdated(element: Question) {
-    this.questionData = element;
-    this.updateQuestion();
-    this.resetEditState();
-  }
 
   onRowClicked(element: Question) {
     this.selectedQuestion = element;
@@ -162,13 +106,5 @@ export class UserQuestionListComponent implements AfterViewInit, OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-
-
-  ngOnInit(): void {
-    this.getAllQuestions();
-
-    this.forumManagement.questionCreated.subscribe((question: Question) => {
-      this.onQuestionAdded(question);
-    });
-  }
+  ngOnInit(): void {  }
 }
