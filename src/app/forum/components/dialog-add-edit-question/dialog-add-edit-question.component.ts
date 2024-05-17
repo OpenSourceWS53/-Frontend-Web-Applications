@@ -1,98 +1,42 @@
-import {Component, Inject, OnInit} from '@angular/core';
-
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-
-import {MatDialogRef, MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogTitle
-} from "@angular/material/dialog";
-
-import {MatButton} from "@angular/material/button";
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormsModule} from '@angular/forms';
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {QuestionsService} from "../../services/questions.service";
+import {Component, EventEmitter, Inject, Input, Output, ViewChild} from '@angular/core';
+import {FormsModule, NgForm} from "@angular/forms";
+import {MatFormField} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
+import {NgIf} from "@angular/common";
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {Question} from "../../model/question.entity";
 
 @Component({
   selector: 'app-dialog-add-edit-question',
   standalone: true,
-  imports: [
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatButton,
-    MatDialogClose,
-    ReactiveFormsModule,
-    MatGridListModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule
-  ],
+  imports: [MatFormField, MatInputModule, MatButtonModule, FormsModule, NgIf],
   templateUrl: './dialog-add-edit-question.component.html',
   styleUrl: './dialog-add-edit-question.component.css'
 })
-export class DialogAddEditQuestionComponent implements OnInit {
-  titleAction: string = 'Add';
-  buttonAction: string = 'Create';
-  formQuestion: FormGroup;
-  constructor(
-    private dialogReference: MatDialogRef<DialogAddEditQuestionComponent>,
-    private fb: FormBuilder,
-    private _snackBar: MatSnackBar,
-    private questionService:QuestionsService,
-    @Inject(MAT_DIALOG_DATA) public dataQuestion: Question
-  ) {
+export class DialogAddEditQuestionComponent  {
+  // Attributes
+  question: Question;
+  editMode: boolean;
+  @ViewChild('questionForm', {static: false}) questionForm!: NgForm;
 
-    this.formQuestion= this.fb.group({
-      userName: ['', Validators.required],
-      category: ['', Validators.required],
-      ask: ['', Validators.required]
-    })
+  constructor(private dialogReference: MatDialogRef<DialogAddEditQuestionComponent>,@Inject(MAT_DIALOG_DATA) public data: { question: Question, isEditMode: boolean }) {
+    this.question = { ...(data.question || {}) };
+    this.editMode = data.isEditMode;
   }
 
-  addEditQuestion() {
-    console.log(this.formQuestion.value);
-    let  question: Question = new Question();
-    question.userName= this.formQuestion.value.userName;
-    question.category = this.formQuestion.value.category;
-    question.ask = this.formQuestion.value.ask;
+  // Event Handlers
 
-    if(this.dataQuestion==null){
-      question.id = 10;
-      this.questionService.create(question).subscribe({
-        next:(data)=>{
-          this.dialogReference.close(true);
-        }
-      });
-    }else{
-      question.id= this.dataQuestion.id;
-      this.questionService.update(this.dataQuestion.id,question).subscribe({
-        next:(data)=>{
-          this.dialogReference.close(true);
-        }
-      });
-    }
-
-  }
-
-
-  ngOnInit() {
-    if(this.dataQuestion){
-
-      this.formQuestion.patchValue({
-        userName: this.dataQuestion.userName,
-        category: this.dataQuestion.category,
-        ask: this.dataQuestion.ask
-      });
-
-      this.titleAction = 'Edit';
-      this.buttonAction = 'Update';
+  onSubmit() {
+    if (this.questionForm.form.valid) {
+      this.dialogReference.close(this.question);
+    } else {
+      console.error('Invalid data in form');
     }
   }
+
+  onCancel() {
+    this.dialogReference.close(null);
+  }
+
 }
