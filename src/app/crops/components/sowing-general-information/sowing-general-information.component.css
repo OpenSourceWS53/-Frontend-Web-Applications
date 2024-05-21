@@ -1,0 +1,14 @@
+.card-information{
+  margin-top: 20px;
+}
+
+.mat-grid-list{
+  margin-top: 10%;
+}
+
+.center-container{
+  justify-content: center;
+  margin: auto;
+  width: 80%;
+  text-align: center;
+ }

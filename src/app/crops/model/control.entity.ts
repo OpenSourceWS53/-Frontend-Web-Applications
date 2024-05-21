@@ -1,16 +1,15 @@
 export class Control {
-  "cropId": number;
-  "date": Date;
-  "leave": string;
-  "stem": string;
-  "soil": string;
-  "id": number;
+  id: number;
+  date: string;
+  leave: string;
+  stem: string;
+  soil: string;
+
   constructor() {
-    this.cropId = 0;
-    this.date = new Date();
+    this.id = 0;
+    this.date = "";
     this.leave = "";
     this.stem = "";
     this.soil = "";
-    this.id = 0;
   }
 }

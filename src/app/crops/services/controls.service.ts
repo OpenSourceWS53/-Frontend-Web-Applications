@@ -9,6 +9,6 @@ import { Control } from "../model/control.entity";
 export class ControlsService extends BaseService<Control>{
   constructor(http: HttpClient) {
     super(http);
-    this.resourceEndpoint = '/controls';
+    this.resourceEndpoint = '/crops/controls';
   }
 }

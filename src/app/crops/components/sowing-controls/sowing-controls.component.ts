@@ -1,28 +1,25 @@
-import { Component } from '@angular/core';
-import { AfterViewInit, OnInit, ViewChild} from '@angular/core';
+import { Component, AfterViewInit, OnInit, ViewChild, Input } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatIconModule } from "@angular/material/icon";
 import { NgClass } from "@angular/common";
-import { ControlsService } from "../../services/controls.service";
-import { Control } from "../../model/control.entity";
-import {
-  ControlsCreateAndEditComponent
-} from "../crop-controls-create-and-edit/crop-controls-create-and-edit.component";
+import { SowingsService } from "../../services/sowings.service";
+import { Sowing } from "../../model/sowing.entity";
+import { Control } from '../../model/control.entity';
+import {SowingControlsCreateAndEditComponent} from "../sowing-controls-create-and-edit/sowing-controls-create-and-edit.component";
 
 
 @Component({
-  selector: 'app-crops-controls',
+  selector: 'app-sowings-controls',
   standalone: true,
-  imports: [
-    MatPaginator, MatSort, MatIconModule, MatTableModule, NgClass, ControlsCreateAndEditComponent
-  ],
-  templateUrl: './crop-controls.component.html',
-  styleUrl: './crop-controls.component.css'
+  imports: [ MatPaginator, MatSort, MatIconModule, MatTableModule, NgClass, SowingControlsCreateAndEditComponent],
+  templateUrl: './sowing-controls.component.html',
+  styleUrl: './sowing-controls.component.css'
 })
-export class CropsControlsComponent implements OnInit, AfterViewInit {
+export class SowingsControlsComponent implements OnInit, AfterViewInit {
+  @Input() sowingId!: number;
   controlData: Control;
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = ['id', 'soil', 'stem', 'leave', 'date','actions'];
@@ -30,29 +27,29 @@ export class CropsControlsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, { static: false}) sort!: MatSort;
   isEditMode: boolean;
 
-  // Constructor
-  constructor(private controlsService: ControlsService) {
+  constructor(private sowingsService: SowingsService) {
     this.isEditMode = false;
     this.controlData = {} as Control;
     this.dataSource = new MatTableDataSource<any>();
   }
 
-  // Private Methods
   private resetEditState(): void {
     this.isEditMode = false;
     this.controlData = {} as Control;
   }
 
-  // CRUD Actions
-
-  private getAllControls() {
-    this.controlsService.getAll().subscribe((response: any) => {
-      this.dataSource.data = response;
+  private getAllSowings() {
+    this.sowingsService.getAll().subscribe((response: any) => {
+      const sowing = response.find((sowing: Sowing) => sowing.id === this.sowingId);
+      if (sowing) {
+        this.dataSource.data = sowing.controls;
+      }
     });
   };
 
+  // CRUD Actions
   private createControl() {
-    this.controlsService.create(this.controlData).subscribe((response: any) => {
+    this.sowingsService.create(this.controlData).subscribe((response: any) => {
       this.dataSource.data.push({...response});
       this.dataSource.data = this.dataSource.data.map((control: Control) => { return control; });
     });
@@ -60,25 +57,23 @@ export class CropsControlsComponent implements OnInit, AfterViewInit {
 
   private updateControl() {
     let controlToUpdate = this.controlData;
-    this.controlsService.update(this.controlData.id, controlToUpdate).subscribe((response: any) => {
-      this.dataSource.data = this.dataSource.data.map((student: Control) => {
-        if (student.id === response.id) {
+    this.sowingsService.update(this.controlData.id, controlToUpdate).subscribe((response: any) => {
+      this.dataSource.data = this.dataSource.data.map((control: Control) => {
+        if (control.id === response.id) {
           return response;
         }
-        return student;
+        return control;
       });
     });
   };
 
   private deleteControl(controlId: number) {
-    this.controlsService.delete(controlId).subscribe(() => {
+    this.sowingsService.delete(controlId).subscribe(() => {
       this.dataSource.data = this.dataSource.data.filter((control: Control) => {
         return control.id !== controlId ? control : false;
       });
     });
   };
-
-  // UI Event Handlers
 
   onEditItem(element: Control) {
     this.isEditMode = true;
@@ -91,22 +86,20 @@ export class CropsControlsComponent implements OnInit, AfterViewInit {
 
   onCancelEdit() {
     this.resetEditState();
-    this.getAllControls();
+    this.getAllSowings();
   }
 
-  onControlAdded(element: Control) {
-    this.controlData = element;
+  onControlAdded(event: {sowingId: number, control: Control}) {
+    this.controlData = event.control;
     this.createControl();
     this.resetEditState();
   }
 
-  onControlUpdated(element: Control) {
-    this.controlData = element;
+  onControlUpdated(event: {sowingId: number, control: Control}) {
+    this.controlData = event.control;
     this.updateControl();
     this.resetEditState();
   }
-
-  // Lifecycle Hooks
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -114,7 +107,6 @@ export class CropsControlsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.getAllControls();
+    this.getAllSowings();
   }
-
 }
