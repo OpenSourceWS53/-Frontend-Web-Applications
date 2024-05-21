@@ -1,77 +1,110 @@
-import {AfterViewInit, Component, ViewChild, OnInit} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import { MatSortModule} from '@angular/material/sort';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatIconModule } from "@angular/material/icon";
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {QuestionsService} from "../../services/questions.service";
-import {MatButton} from "@angular/material/button";
-import {MatIconModule} from '@angular/material/icon';
-import {NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {Question} from "../../model/question.entity";
+import {QuestionsService} from "../../services/questions.service";
+import {MatButtonModule} from '@angular/material/button';
 import {AnswerListComponent} from "../answer-list/answer-list.component";
-import {MatDialog} from "@angular/material/dialog";
-import {DialogDeleteQuestionComponent} from "../dialog-delete-question/dialog-delete-question.component";
 import {DialogAddEditQuestionComponent} from "../dialog-add-edit-question/dialog-add-edit-question.component";
+import {MatDialog} from "@angular/material/dialog";
+
 
 @Component({
   selector: 'app-user-question-list',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatButton, MatIconModule, NgIf, NgForOf, AnswerListComponent],
+  imports: [MatPaginator, MatSort, MatIconModule, MatTableModule, NgClass, MatFormFieldModule, MatInputModule, MatButtonModule, NgIf, AnswerListComponent],
   templateUrl: './user-question-list.component.html',
   styleUrl: './user-question-list.component.css'
 })
 export class UserQuestionListComponent implements AfterViewInit, OnInit {
-  displayedColumns: string[] = ['ask', 'category', 'date','actions'];
-  dataSource!: MatTableDataSource<any>;
-  selectedRow: any = null;
-  constructor(private questionService: QuestionsService,public dialog: MatDialog) {
-    this.dataSource = new MatTableDataSource<any>;
-    this.selectedRow = false;
+
+  // Attributes
+
+  @Input() isEditMode = false;
+  @Input() dataSource!: MatTableDataSource<any>;
+  questionData: Question;
+  @Output() questionAdded = new EventEmitter<Question>();
+  @Output() questionUpdated = new EventEmitter<Question>();
+  @Output() questionDeleted = new EventEmitter<Question>();
+  @Output() editCanceled = new EventEmitter();
+  @Output() editItem = new EventEmitter<Question>();
+  @Output() getQuestions = new EventEmitter();
+
+  displayedColumns: string[] = ['Ask', 'Category', 'Date', 'Actions'];
+  @ViewChild(MatPaginator, { static: false}) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: false}) sort!: MatSort;
+
+  isQuestionSelect: boolean;
+  selectedQuestion: Question;
+
+  // Constructor
+  constructor(private questionsService: QuestionsService,private dialog: MatDialog) {
+    this.isQuestionSelect = false;
+    this.selectedQuestion = {} as Question;
+    this.questionData = {} as Question;
   }
 
-  private getAllQuestions() {
-    this.questionService.getByIdParam('id',10).subscribe((response: any) =>{
-      console.log(response);
-      this.dataSource.data=response;
+
+
+  openDialog(question?: Question): void {
+    const dialogRef = this.dialog.open(DialogAddEditQuestionComponent, {
+      width: '500px',
+      data: {
+        question: question || null,
+        isEditMode: this.isEditMode
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: Question) => {
+      if (result) {
+        if (this.isEditMode) {
+          this.questionUpdated.emit(result);
+        } else {
+          this.questionAdded.emit(result);
+        }
+      } else {
+        this.editCanceled.emit();
+      }
+      this.getQuestions.emit();
     });
   }
 
-  ngOnInit() {
-    this.getAllQuestions();
+  onEditItem(element: Question) {
+    this.isEditMode = true;
+    this.questionData = element;
+    this.openDialog(element);
   }
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  onDeleteItem(element: Question) {
+    this.questionDeleted.emit(element);
+  }
+  // UI Event Handlers
 
-  ngAfterViewInit() {
+
+  onRowClicked(element: Question) {
+    this.selectedQuestion = element;
+    this.isQuestionSelect = true;
+  }
+
+  questionSelected(){
+    this.isQuestionSelect = false;
+  }
+
+  // Lifecycle Hooks
+
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  dialogEditQuestion(dataQuestion: Question) {
-    this.dialog.open(DialogAddEditQuestionComponent,{
-      disableClose: true,
-      width: '400px',
-      data: dataQuestion
-    }).afterClosed().subscribe(result =>{
-      if(result){
-        this.getAllQuestions();
-      }
-    });
-  }
-  dialogDeleteQuestion(dataQuestion: Question){
-    this.dialog.open(DialogDeleteQuestionComponent,{
-      disableClose: true,
-      data: dataQuestion
-    }).afterClosed().subscribe(result =>{
-      if(result){
-        this.getAllQuestions();
-      }
-    });
-  }
-
-  clickedRow = new Set<Question>();
+  ngOnInit(): void {  }
 }
