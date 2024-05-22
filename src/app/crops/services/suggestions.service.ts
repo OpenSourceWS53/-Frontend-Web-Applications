@@ -8,6 +8,6 @@ import { Care } from "../model/care.entity";
 export class SuggestionsService extends BaseService<Care>{
   constructor(http: HttpClient) {
       super(http);
-      this.resourceEndpoint = '/cares';
+      this.resourceEndpoint = '/crops/cares';
     }
 }

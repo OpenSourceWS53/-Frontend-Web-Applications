@@ -2,11 +2,13 @@
   <h1>Controls</h1>
 
   <!--Add/Edit Form-->
-  <app-controls-create-and-edit (editCanceled)="onCancelEdit()"
+  <app-sowing-controls-create-and-edit (editCanceled)="onCancelEdit()"
                                 (controlAdded)="onControlAdded($event)"
                                 (controlUpdated)="onControlUpdated($event)"
-                                [editMode] = "isEditMode"
-                                [control]="controlData "/>
+                                [editMode]="isEditMode"
+                                [control]="controlData">
+  </app-sowing-controls-create-and-edit>
+
   <!-- Data Table -->
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
     <ng-container matColumnDef="id">

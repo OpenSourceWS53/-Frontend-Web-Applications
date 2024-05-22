@@ -10,6 +10,6 @@ import { Crop } from "../model/crop.entity";
 export class CropsService extends BaseService<Crop>{
   constructor(http: HttpClient) {
     super(http);
-    this.resourceEndpoint = '/crops';
+    this.resourceEndpoint = '/crops/crops';
   }
 }

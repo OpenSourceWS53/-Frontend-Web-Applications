@@ -1,4 +1,10 @@
-mat-form-field{
+h2 {
+  margin-bottom: 20px;
+  color: black;
+}
+
+mat-form-field {
   font-size: 14px;
-  width: 100%;
+  width: 90%;
+  margin-bottom: 10px;
 }
