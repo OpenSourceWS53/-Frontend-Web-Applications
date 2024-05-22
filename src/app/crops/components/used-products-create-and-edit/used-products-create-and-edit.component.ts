@@ -12,11 +12,11 @@ import {NgIf} from "@angular/common";
   selector: 'app-products-create-and-edit',
   standalone: true,
   imports: [MatFormField, MatInputModule, MatButtonModule, FormsModule, NgIf],
-  templateUrl: './crop-products-create-and-edit.component.html',
-  styleUrl: './crop-products-create-and-edit.component.css'
+  templateUrl: './used-products-create-and-edit.component.html',
+  styleUrl: './used-products-create-and-edit.component.css'
 })
-export class ProductsCreateAndEditComponent {
-  // Attributes
+export class UsedProductsCreateAndEditComponent {
+  
   @Input() product: Product;
   @Input() editMode = false;
   @Output() productAdded = new EventEmitter<Product>();

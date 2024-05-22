@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCardModule} from '@angular/material/card';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import {MatGridList, MatGridListModule, MatGridTile} from '@angular/material/grid-list';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {Crop} from "../../model/crop.entity";
-import {CropsService} from "../../services/crops.service";
-
+import {CaresService} from "../../services/cares.service";
+import { Care } from "../../model/care.entity";
 
 @Component({
   selector: 'app-crop-cares',
@@ -16,24 +15,26 @@ import {CropsService} from "../../services/crops.service";
   styleUrl: './crop-cares.component.css',
   providers: [provideNativeDateAdapter()],
 })
-export class CropCaresComponent {
+export class CropCaresComponent implements OnInit {
   selected: Date | null = null;
   displayedColumns: string[] = ['date', 'suggestion'];
   dataSource!: MatTableDataSource<any>;
-  data: Crop;
 
-  constructor(private cropsService: CropsService) {
+  careData: Care;
+
+  constructor(private caresService: CaresService) {
     this.dataSource = new MatTableDataSource<any>;
-    this.data = new Crop();
+    this.careData = {} as Care;
   }
-  private getCropInformation() {
-    this.cropsService.getByIdParam('id',1).subscribe((response: any) =>{
-      this.data=response[0];
-      this.dataSource.data=response;
-      console.log(this.data);
-    });
-  }
+
+  private getCaresInformation() {
+   this.caresService.getAll().subscribe((response: any) => {
+     console.log(response);
+     this.dataSource.data = response.filter((care: any) => Number(care.sowing_id) === 1);
+   });
+ }
+
   ngOnInit() {
-    this.getCropInformation();
+    this.getCaresInformation();
   }
 }

@@ -5,7 +5,7 @@ import { Care } from "../model/care.entity";
 @Injectable({
   providedIn: 'root'
 })
-export class SuggestionsService extends BaseService<Care>{
+export class CaresService extends BaseService<Care>{
   constructor(http: HttpClient) {
       super(http);
       this.resourceEndpoint = '/crops/cares';
