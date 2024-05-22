@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core'; // Import Input
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCardModule} from '@angular/material/card';
 import {provideNativeDateAdapter} from '@angular/material/core';
@@ -8,14 +8,15 @@ import {CaresService} from "../../services/cares.service";
 import { Care } from "../../model/care.entity";
 
 @Component({
-  selector: 'app-crop-cares',
+  selector: 'app-sowing-cares',
   standalone: true,
   imports: [MatCardModule, MatDatepickerModule, MatGridList, MatGridTile,MatTableModule],
-  templateUrl: './crop-cares.component.html',
-  styleUrl: './crop-cares.component.css',
+  templateUrl: './sowing-cares.component.html',
+  styleUrl: './sowing-cares.component.css',
   providers: [provideNativeDateAdapter()],
 })
-export class CropCaresComponent implements OnInit {
+export class SowingCaresComponent implements OnInit {
+  @Input() sowingId!: number;
   selected: Date | null = null;
   displayedColumns: string[] = ['date', 'suggestion'];
   dataSource!: MatTableDataSource<any>;
@@ -28,11 +29,11 @@ export class CropCaresComponent implements OnInit {
   }
 
   private getCaresInformation() {
-   this.caresService.getAll().subscribe((response: any) => {
-     console.log(response);
-     this.dataSource.data = response.filter((care: any) => Number(care.sowing_id) === 1);
-   });
- }
+      this.caresService.getAll().subscribe((response: any) => {
+        console.log(response);
+        this.dataSource.data = response.filter((care: any) => Number(care.sowing_id) === this.sowingId); // Use sowingId for filtering
+      });
+  }
 
   ngOnInit() {
     this.getCaresInformation();

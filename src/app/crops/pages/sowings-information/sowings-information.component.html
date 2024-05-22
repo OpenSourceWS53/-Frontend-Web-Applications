@@ -2,9 +2,9 @@
   <h1 class="text-center">Crop Information</h1>
   <mat-tab-group>
     <mat-tab label="General information"><app-sowing-general-information [sowingId]="sowingId"></app-sowing-general-information></mat-tab>
-    <mat-tab label="Crop care"><app-crop-cares/> </mat-tab>
+    <mat-tab label="Crop care"><app-sowing-cares [sowingId]="sowingId"></app-sowing-cares></mat-tab> <!-- Pass sowingId to app-crop-cares -->
     <mat-tab label="Controls"><app-sowings-controls [sowingId]="sowingId"></app-sowings-controls></mat-tab>
-    <mat-tab label="Diseases or Pests"> <app-crop-diseases/> </mat-tab>
+    <mat-tab label="Diseases or Pests"> <app-crop-diseases [sowingId]="sowingId"></app-crop-diseases></mat-tab> <!-- Pass sowingId to app-crop-diseases -->
     <mat-tab label="Products used">    <app-used-products [sowingId]="sowingId"></app-used-products></mat-tab>
   </mat-tab-group>
 
