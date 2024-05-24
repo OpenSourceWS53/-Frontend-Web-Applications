@@ -1,50 +1,42 @@
-<h1>Crop History</h1>
+<div class="card-container">
+  <mat-card>
 
-<mat-card>
-  <mat-card-content>
-
+    <h1 class="text-center">Crop History</h1>
     <mat-form-field>
       <mat-label>Search Records</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
     </mat-form-field>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-      </ng-container>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; height: 500px;">
 
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="plantedDate">
-        <th mat-header-cell *matHeaderCellDef> Planted Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.plantedDate}} </td>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon *ngIf="element.status == 'true'; else notCheckedIcon" style="color:green;">check_circle</mat-icon>
+          <ng-template #notCheckedIcon><mat-icon style="color:red;">cancel</mat-icon></ng-template>
+        </td>
       </ng-container>
 
-      <ng-container matColumnDef="harvestDate">
-        <th mat-header-cell *matHeaderCellDef> Harvest Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.harvestDate}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="phenologicalPhase">
+      <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> View Record </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-button >See </button>
+          <button mat-raised-button color="primary">See </button>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-      <!-- Row shown when there is no matching data. -->
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
       </tr>
     </table>
 
-  </mat-card-content>
-</mat-card>
+
+  </mat-card>
+</div>

@@ -10,7 +10,7 @@ export class AnswersService extends BaseService<Answer> {
 
   constructor(http: HttpClient) {
     super(http);
-    this.resourceEndpoint = '/answers';
+    this.resourceEndpoint = '/forum/answers';
   }
 
 }

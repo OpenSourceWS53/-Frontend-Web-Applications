@@ -1,0 +1,21 @@
+<h2>{{ editMode ? 'Edit Sowing' : 'New Sowing' }}</h2>
+<div class="form-section">
+  <form (submit)="onSubmit()" #sowingForm='ngForm' class="form-row">
+    <mat-form-field>
+      <input matInput placeholder="Start Date" name="startDate" required [(ngModel)]="sowing.start_date">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Area Land" name="areaLand" required [(ngModel)]="sowing.area_land">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Crop Name" name="cropName" required [(ngModel)]="sowing.crop_name">
+    </mat-form-field>
+    <ng-container *ngIf="editMode; else elseTemplate">
+      <button mat-raised-button color="primary">Update</button>
+      <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <button mat-raised-button >Add Sowing</button>
+    </ng-template>
+  </form>
+</div>

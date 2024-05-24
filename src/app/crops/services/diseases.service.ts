@@ -10,7 +10,7 @@ export class DiseasesService extends BaseService<Disease>{
 
   constructor(http: HttpClient) {
     super(http);
-    this.resourceEndpoint = '/diseases';
+    this.resourceEndpoint = '/crops/diseases';
   }
 
 }
