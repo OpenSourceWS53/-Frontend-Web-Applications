@@ -8,6 +8,6 @@
 
 .button-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 10px;
 }

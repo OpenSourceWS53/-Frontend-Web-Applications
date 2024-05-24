@@ -162,6 +162,7 @@
   ],
   "controls":[
     {
+      "id":1,
       "cropId": 1,
       "date": "2024-07-25",
       "leave": "It presents two spots on the wrinkles",
@@ -169,6 +170,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 2,
       "cropId": 1,
       "date": "2024-08-05",
       "leave": "No stains or wrinkles",
@@ -176,6 +178,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 3,
       "cropId": 1,
       "date": "2024-08-15",
       "leave": "It presents five spots",
@@ -183,6 +186,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 4,
       "cropId": 1,
       "date": "2024-08-25",
       "leave": "No stains or wrinkles",
@@ -190,6 +194,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id":5,
       "cropId": 1,
       "date": "2024-08-05",
       "leave": "It presents three spots",
@@ -197,6 +202,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 6,
       "cropId": 2,
       "date": "2024-09-15",
       "leave": "It presents two spots on the wrinkles",
@@ -204,6 +210,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 7,
       "cropId": 2,
       "date": "2024-08-25",
       "leave": "It presents three spots",
@@ -211,6 +218,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 8,
       "cropId": 2,
       "date": "2024-09-05",
       "leave": "It presents two spots on the wrinkles",
@@ -218,6 +226,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 9,
       "cropId": 2,
       "date": "2024-10-15",
       "leave": "It presents three spots",
@@ -225,6 +234,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 10,
       "cropId": 2,
       "date": "2024-10-25",
       "leave": "It presents two spots on the wrinkles",
@@ -266,6 +276,7 @@
   ],
   "products": [
     {
+      "id": 1,
       "cropId": 1,
       "date": "2024-07-25",
       "type": "Fertilizer",
@@ -273,6 +284,7 @@
       "quantity": "10 kg"
     },
     {
+      "id": 2,
       "cropId": 1,
       "date": "2024-08-05",
       "type": "Pesticide",
@@ -280,6 +292,7 @@
       "quantity": "20 kg"
     },
     {
+      "id": 3,
       "cropId": 1,
       "date": "2024-08-15",
       "type": "Fungicide",
@@ -287,6 +300,7 @@
       "quantity": "2 L"
     },
     {
+      "id": 4,
       "cropId": 1,
       "date": "2024-08-25",
       "type": "Fertilizer",
@@ -294,6 +308,7 @@
       "quantity": "10 kg"
     },
     {
+      "id": 5,
       "cropId": 1,
       "date": "2024-08-05",
       "type": "Pesticide",
@@ -301,6 +316,7 @@
       "quantity": "20 kg"
     },
     {
+      "id": 6,
       "cropId": 2,
       "date": "2024-09-15",
       "type": "Fertilizer",
@@ -308,6 +324,7 @@
       "quantity": "10 kg"
     },
     {
+      "id": 7,
       "cropId": 2,
       "date": "2024-08-25",
       "type": "Pesticide",
@@ -315,6 +332,7 @@
       "quantity": "20 kg"
     },
     {
+      "id": 8,
       "cropId": 2,
       "date": "2024-09-05",
       "type": "Fungicide",
@@ -322,6 +340,7 @@
       "quantity": "2 L"
     },
     {
+      "id": 9,
       "cropId": 2,
       "date": "2024-10-15",
       "type": "Fertilizer",
@@ -329,6 +348,7 @@
       "quantity": "10 kg"
     },
     {
+      "id": 10,
       "cropId": 2,
       "date": "2024-10-25",
       "type": "Pesticide",
