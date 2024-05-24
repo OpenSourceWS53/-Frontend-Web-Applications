@@ -1,12 +1,8 @@
 import { Component , Input, OnInit} from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs';
-import {CropCaresComponent} from "../../components/crop-cares/crop-cares.component";
-import {
-  ProductsCreateAndEditComponent
-} from "../../components/crop-products-create-and-edit/crop-products-create-and-edit.component";
+import {SowingCaresComponent} from "../../components/sowing-cares/sowing-cares.component";
 import {CropDiseasesComponent} from "../../components/crop-diseases/crop-diseases.component";
-
-import {CropsProductsComponent} from "../../components/crop-products/crop-products.component";
+import {UsedProductsComponent} from "../../components/used-products/used-products.component";
 import { Router } from '@angular/router'; // Import Router
 import {SowingGeneralInformationComponent} from "../../components/sowing-general-information/sowing-general-information.component";
 import {SowingsControlsComponent} from "../../components/sowing-controls/sowing-controls.component";
@@ -14,7 +10,8 @@ import {SowingsControlsComponent} from "../../components/sowing-controls/sowing-
 @Component({
   selector: 'app-sowing-information',
   standalone: true,
-  imports: [MatTabsModule, SowingsControlsComponent, CropCaresComponent, ProductsCreateAndEditComponent, CropDiseasesComponent, SowingGeneralInformationComponent, CropsProductsComponent],
+  imports: [MatTabsModule, SowingsControlsComponent, SowingCaresComponent, CropDiseasesComponent,
+  SowingGeneralInformationComponent, UsedProductsComponent],
   templateUrl: './sowings-information.component.html',
   styleUrl: './sowings-information.component.css'
 })
