@@ -1,0 +1,27 @@
+<!-- Create and Edit Form -->
+<h2>{{ editMode ? 'Edit Question' : 'New Question' }}</h2>
+<div class="form-section">
+  <form #questionForm='ngForm' class="form-row">
+    <mat-form-field>
+      <input matInput placeholder="User Name" name="userName" required [(ngModel)]="question.userName">
+    </mat-form-field>
+    <mat-form-field id="age-form-field">
+      <input matInput placeholder="Category" name="category" required [(ngModel)]="question.category">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Ask" name="ask" required [(ngModel)]="question.ask">
+    </mat-form-field>
+    <ng-container *ngIf="editMode; else elseTemplate">
+      <div>
+        <button mat-raised-button class="green-bg" (click)="onSubmit()">Update</button>
+        <button mat-raised-button class="brown-bg" (click)="onCancel()">Cancel</button>
+      </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <div>
+        <button mat-raised-button class="green-bg" [disabled]="questionForm.invalid" (click)="onSubmit()">Add</button>
+        <button mat-raised-button class="brown-bg"  (click)="onCancel()">Cancel</button>
+      </div>
+    </ng-template>
+  </form>
+</div>

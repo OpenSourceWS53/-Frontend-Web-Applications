@@ -1,0 +1,47 @@
+<div class="table-wrapper">
+  <h1>List of Crops in Progress</h1>
+
+  <app-sowings-create-and-edit (editCanceled)="onCancelEdit()"
+                               (sowingAdded)="onSowingAdded($event)"
+                               (sowingUpdated)="onSowingUpdated($event)"
+                               [editMode] = "isEditMode"
+                               [sowing]="sowingData"/>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort >
+    <ng-container matColumnDef="id">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>#ID</th>
+      <td *matCellDef="let element" mat-cell>{{ element.id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="cropName">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Crop Name</th>
+      <td *matCellDef="let element" mat-cell>{{ element.crop_name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="startDate">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Start Date</th>
+      <td *matCellDef="let element" mat-cell>{{ element.start_date }}</td>
+    </ng-container>
+    <ng-container matColumnDef="harvestDate">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Estimated Harvest Date</th>
+      <td *matCellDef="let element" mat-cell>{{ element.harvest_date }}</td>
+    </ng-container>
+    <ng-container matColumnDef="phenologicalPhase">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Phenological Phase</th>
+      <td *matCellDef="let element" mat-cell>{{ element.phenological_phase }}</td>
+    </ng-container>
+    <ng-container matColumnDef="areaLand">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Area Land(m2)</th>
+      <td *matCellDef="let element" mat-cell>{{ element.area_land }}</td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef mat-header-cell>    </th>
+      <td *matCellDef="let element" mat-cell>
+        <a (click)="onViewInfo(element)" href="javascript:void(0)"><mat-icon>visibility</mat-icon></a>
+        <a (click)="onEditItem(element)" href="javascript:void(0)"><mat-icon>edit</mat-icon></a>
+        <a (click)="onDeleteItem(element)" href="javascript:void(0)"><mat-icon>delete</mat-icon></a>
+      </td>
+    </ng-container>
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns:displayedColumns" [ngClass]="{'editable-row': sowingData.id === row.id }" mat-row></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div>

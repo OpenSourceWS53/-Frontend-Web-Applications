@@ -1,20 +1,40 @@
 {
   "users":[
     {
-      "id": 1,
+      "id": "1",
       "name": "John Doe",
       "country": "USA",
       "city": "New York",
       "email": "Jhon@hmail.com",
-      "password": "123456"
+      "password": "123456",
+      "crops": [
+        {
+          "type": "limones",
+          "quantity": 20
+        },
+        {
+          "type": "cacao",
+          "quantity": 20
+        }
+      ]
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Diego Alcantara",
       "country": "Peru",
       "city": "Lima",
       "email": "diego@gmail.com",
-      "password": "123456"
+      "password": "123456",
+      "crops": [
+        {
+          "type": "limones",
+          "quantity": 15
+        },
+        {
+          "type": "cacao",
+          "quantity": 25
+        }
+      ]
     }
   ],
   "crops": [
@@ -64,6 +84,16 @@
       "harvestDate": "2025-01-19",
       "phenologicalPhase": "Germination",
       "plantedArea": 1500,
+      "image": "",
+      "description": "Rice is the seed of the grass species Oryza sativa (Asian rice) or less commonly Oryza glaberrima (African rice). As a cereal grain, it is the most widely consumed staple food for a large part of the world's human population, especially in Asia and Africa. It is the agricultural commodity with the third-highest worldwide production (rice, 741.5 million tonnes in 2014), after sugarcane (1.9 billion tonnes) and maize (1.0 billion tonnes)."
+    },
+    {
+      "id": 6,
+      "name": "Rice",
+      "plantedDate": "2024-09-19",
+      "harvestDate": "2025-02-19",
+      "phenologicalPhase": "Sprouting",
+      "plantedArea": 20,
       "image": "",
       "description": "Rice is the seed of the grass species Oryza sativa (Asian rice) or less commonly Oryza glaberrima (African rice). As a cereal grain, it is the most widely consumed staple food for a large part of the world's human population, especially in Asia and Africa. It is the agricultural commodity with the third-highest worldwide production (rice, 741.5 million tonnes in 2014), after sugarcane (1.9 billion tonnes) and maize (1.0 billion tonnes)."
     }
@@ -132,6 +162,7 @@
   ],
   "controls":[
     {
+      "id":1,
       "cropId": 1,
       "date": "2024-07-25",
       "leave": "It presents two spots on the wrinkles",
@@ -139,6 +170,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 2,
       "cropId": 1,
       "date": "2024-08-05",
       "leave": "No stains or wrinkles",
@@ -146,6 +178,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 3,
       "cropId": 1,
       "date": "2024-08-15",
       "leave": "It presents five spots",
@@ -153,6 +186,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 4,
       "cropId": 1,
       "date": "2024-08-25",
       "leave": "No stains or wrinkles",
@@ -160,6 +194,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id":5,
       "cropId": 1,
       "date": "2024-08-05",
       "leave": "It presents three spots",
@@ -167,6 +202,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 6,
       "cropId": 2,
       "date": "2024-09-15",
       "leave": "It presents two spots on the wrinkles",
@@ -174,6 +210,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 7,
       "cropId": 2,
       "date": "2024-08-25",
       "leave": "It presents three spots",
@@ -181,6 +218,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 8,
       "cropId": 2,
       "date": "2024-09-05",
       "leave": "It presents two spots on the wrinkles",
@@ -188,6 +226,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 9,
       "cropId": 2,
       "date": "2024-10-15",
       "leave": "It presents three spots",
@@ -195,6 +234,7 @@
       "soil": "The soil is moist"
     },
     {
+      "id": 10,
       "cropId": 2,
       "date": "2024-10-25",
       "leave": "It presents two spots on the wrinkles",
@@ -236,6 +276,7 @@
   ],
   "products": [
     {
+      "id": 1,
       "cropId": 1,
       "date": "2024-07-25",
       "type": "Fertilizer",
@@ -243,6 +284,7 @@
       "quantity": "10 kg"
     },
     {
+      "id": 2,
       "cropId": 1,
       "date": "2024-08-05",
       "type": "Pesticide",
@@ -250,6 +292,7 @@
       "quantity": "20 kg"
     },
     {
+      "id": 3,
       "cropId": 1,
       "date": "2024-08-15",
       "type": "Fungicide",
@@ -257,6 +300,7 @@
       "quantity": "2 L"
     },
     {
+      "id": 4,
       "cropId": 1,
       "date": "2024-08-25",
       "type": "Fertilizer",
@@ -264,6 +308,7 @@
       "quantity": "10 kg"
     },
     {
+      "id": 5,
       "cropId": 1,
       "date": "2024-08-05",
       "type": "Pesticide",
@@ -271,6 +316,7 @@
       "quantity": "20 kg"
     },
     {
+      "id": 6,
       "cropId": 2,
       "date": "2024-09-15",
       "type": "Fertilizer",
@@ -278,6 +324,7 @@
       "quantity": "10 kg"
     },
     {
+      "id": 7,
       "cropId": 2,
       "date": "2024-08-25",
       "type": "Pesticide",
@@ -285,6 +332,7 @@
       "quantity": "20 kg"
     },
     {
+      "id": 8,
       "cropId": 2,
       "date": "2024-09-05",
       "type": "Fungicide",
@@ -292,6 +340,7 @@
       "quantity": "2 L"
     },
     {
+      "id": 9,
       "cropId": 2,
       "date": "2024-10-15",
       "type": "Fertilizer",
@@ -299,6 +348,7 @@
       "quantity": "10 kg"
     },
     {
+      "id": 10,
       "cropId": 2,
       "date": "2024-10-25",
       "type": "Pesticide",

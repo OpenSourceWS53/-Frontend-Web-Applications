@@ -1,0 +1,28 @@
+.form-section {
+  display: table;
+  width:100%;
+}
+
+.form-row {
+  display: table-cell;
+  max-width: 2400px;
+}
+
+.form-row .mat-raised-button {
+  margin-right: 8px;
+}
+
+.form-row .mat-form-field {
+  margin-right: 8px;
+}
+
+.form-row #age-form-field {
+  margin-right: 8px;
+  width: 15%;
+}
+button{
+  background-color:#9A5D4E !important;
+  color:#FFFFFF !important;
+}
+
+
