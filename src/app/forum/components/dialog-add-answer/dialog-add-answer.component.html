@@ -1,23 +1,24 @@
-<h2 mat-dialog-title>New Answer </h2>
-<mat-dialog-content>
-  <form [formGroup]="formAnswer">
-    <mat-grid-list cols="1" rowHeight="80px">
-      <mat-grid-tile>
-        <mat-form-field class="example-full-width">
-          <mat-label>User Name</mat-label>
-          <input matInput formControlName="userName" autocomplete="off">
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-form-field class="example-full-width">
-          <mat-label>Answer Content</mat-label>
-          <textarea matInput formControlName="content" autocomplete="off"></textarea>
-        </mat-form-field>
-      </mat-grid-tile>
-    </mat-grid-list>
+<!-- Create and Edit Form -->
+<h2>{{ editMode ? 'Edit Answer' : 'New Answer' }}</h2>
+<div class="form-section">
+  <form #answerForm='ngForm' class="form-row">
+    <mat-form-field>
+      <input matInput placeholder="User Name" name="userName" required [(ngModel)]="answer.userName">
+    </mat-form-field>
+    <mat-form-field id="age-form-field">
+      <input matInput placeholder="Content" name="content" required [(ngModel)]="answer.content">
+    </mat-form-field>
+    <ng-container *ngIf="editMode; else elseTemplate">
+      <div>
+        <button mat-raised-button class="green-bg" (click)="onSubmit()">Update</button>
+        <button mat-raised-button class="brown-bg" (click)="onCancel()">Cancel</button>
+      </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <div>
+        <button mat-raised-button class="green-bg" [disabled]="answerForm.invalid" (click)="onSubmit()">Add</button>
+        <button mat-raised-button class="brown-bg"  (click)="onCancel()">Cancel</button>
+      </div>
+    </ng-template>
   </form>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close class="green-bg">Cancel</button>
-  <button mat-button class="green-bg" (click)="addAnswer()" [disabled]="formAnswer.invalid">Add</button>
-</mat-dialog-actions>
+</div>

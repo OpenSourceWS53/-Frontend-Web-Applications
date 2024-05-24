@@ -3,31 +3,40 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {CommonModule} from '@angular/common';
+import { Sowing } from "../../model/sowing.entity";
+import { SowingsService } from "../../services/sowings.service";
+import { MatIconModule } from '@angular/material/icon';
 
-import {Crop} from "../../model/crop.entity";
-import {CropsService} from "../../services/crops.service";
 @Component({
   selector: 'app-crops-history',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatCardModule],
+  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatCardModule, CommonModule, MatIconModule],
   templateUrl: './crops-history.component.html',
   styleUrl: './crops-history.component.css'
 })
 export class CropsHistoryComponent {
-  crops: Array<Crop> = [];
-  displayedColumns: string[] = ['name', 'plantedDate', 'harvestDate', 'phenologicalPhase'];
+  sowings: Array<Sowing> = [];
+  displayedColumns: string[] = ['name', 'status','actions'];
   dataSource: any;
 
-  constructor(private cropsService: CropsService) {
+  constructor(private sowingsService: SowingsService) {
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-    ngOnInit(): void {
-      this.cropsService.getAll().subscribe((data: any) => {
-        this.crops = data;
-        this.dataSource = new MatTableDataSource(this.crops);
+
+  ngOnInit(): void {
+    this.sowingsService.getAll().subscribe((data: any) => {
+      this.sowings = data.map((sowing: any) => {
+        return {
+          name: sowing.crop_name,
+          status: sowing.status
+        };
       });
-    }
+      this.dataSource = new MatTableDataSource(this.sowings);
+    });
+  }
 }
