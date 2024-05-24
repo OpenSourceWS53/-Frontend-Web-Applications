@@ -1,0 +1,58 @@
+<div class ="card-container">
+  <mat-card class="custom-card" style="width: 30%;">
+  <mat-card-header class="center-content">
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title class="mat-title">Most registered crops in the app</mat-card-title>
+  </mat-card-header>
+  <div *ngIf="chartOptions.series && chartOptions.chart && chartOptions.responsive" class="chart">
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [labels]="chartOptions.labels"
+      [responsive]="chartOptions.responsive"
+    ></apx-chart>
+  </div>
+  <mat-card-content>
+    <p>
+      The most registered crop in the app during the last month was the {{mostRegisteredCrop}}.
+    </p>
+  </mat-card-content>
+    <mat-card-actions class="center-content">
+      <button mat-button (click)="openDialog()" class="button-pop-up">Show Details</button>
+    </mat-card-actions>
+</mat-card>
+
+
+  <mat-card class="custom-card" style="width: 30%;">
+    <mat-card-header class="center-content">
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title class="mat-title">Most controlled crops in the app</mat-card-title>
+    </mat-card-header>
+    <div *ngIf="controlChartOptions.series && controlChartOptions.chart && controlChartOptions.responsive" class="chart">
+      <apx-chart
+        [series]="controlChartOptions.series"
+        [chart]="controlChartOptions.chart"
+        [labels]="controlChartOptions.labels"
+        [responsive]="controlChartOptions.responsive"
+      ></apx-chart>
+    </div>
+    <mat-card-content>
+      <p>
+        The most controlled crop in the app during the last month was the {{mostControlledCrop}}.
+      </p>
+    </mat-card-content>
+    <mat-card-actions class="center-content">
+      <button mat-button (click)="openControlledCropDialog()" class="button-pop-up">Show Details</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<ng-template #registeredCropDialog>
+  <h1 mat-dialog-title>Most Registered Crop</h1>
+  <div mat-dialog-content>{{mostRegisteredCrop}}</div>
+</ng-template>
+
+<ng-template #controlledCropDialog>
+  <h1 mat-dialog-title>Most Controlled Crop</h1>
+  <div mat-dialog-content>{{mostControlledCrop}}</div>
+</ng-template>

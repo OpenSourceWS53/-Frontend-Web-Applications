@@ -7,8 +7,8 @@ import { catchError, Observable, retry, throwError } from "rxjs";
   providedIn: 'root'
 })
 export class BaseService<T> {
-
   basePath: string = `${environment.serverBasePath}`;
+
   resourceEndpoint: string = '/resources';
 
   httpOptions = {
@@ -40,12 +40,14 @@ export class BaseService<T> {
   delete(id: any) {
     return this.http.delete(`${this.resourcePath()}/${id}`, this.httpOptions)
         .pipe(retry(2), catchError(this.handleError));
+
   }
 
   // Update Resource
   update(id: any, item: any): Observable<T> {
     return this.http.put<T>(`${this.resourcePath()}/${id}`, JSON.stringify(item), this.httpOptions)
         .pipe(retry(2), catchError(this.handleError));
+
   }
 
   // Get All Resources
@@ -57,10 +59,10 @@ export class BaseService<T> {
   getByIdParam(param:string,id: any): Observable<T> {
     return this.http.get<T>(`${this.resourcePath()}/?${param}=${id}`, this.httpOptions)
         .pipe(retry(2), catchError(this.handleError));
+
   }
 
   private resourcePath(): string {
     return `${this.basePath}${this.resourceEndpoint}`;
   }
-
 }

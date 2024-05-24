@@ -1,0 +1,26 @@
+.table-wrapper {
+  width: 1024px;
+  margin: 50px auto;
+}
+
+table {
+  width: 100%;
+}
+
+tr.editable-row {
+  background-color: lightblue;
+}
+th{
+  background-color: #005F40 !important;
+  color: #FFFFFF;
+  font-size: 24px !important;
+}
+tr{
+background-color:#D9D9D9;
+border-radius: 8px;
+color: #000000;
+font-size: 18px !important;
+}
+h1 {
+color:#000000;
+}
