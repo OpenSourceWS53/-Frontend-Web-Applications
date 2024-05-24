@@ -1,0 +1,46 @@
+<div class="table-wrapper">
+  <h1>Controls</h1>
+
+  <!--Add/Edit Form-->
+  <app-sowing-controls-create-and-edit (editCanceled)="onCancelEdit()"
+                                (controlAdded)="onControlAdded($event)"
+                                (controlUpdated)="onControlUpdated($event)"
+                                [editMode]="isEditMode"
+                                [control]="controlData">
+  </app-sowing-controls-create-and-edit>
+
+  <!-- Data Table -->
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+    <ng-container matColumnDef="id">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header> Id</th>
+      <td *matCellDef="let element" mat-cell>{{ element.id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="soil">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Soil</th>
+      <td *matCellDef="let element" mat-cell>{{ element.soil }}</td>
+    </ng-container>
+    <ng-container matColumnDef="stem">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Stem</th>
+      <td *matCellDef="let element" mat-cell>{{ element.stem }}</td>
+    </ng-container>
+    <ng-container matColumnDef="leave">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Leave</th>
+      <td *matCellDef="let element" mat-cell>{{ element.leave }}</td>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Date</th>
+      <td *matCellDef="let element" mat-cell>{{ element.date }}</td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef mat-header-cell> Actions</th>
+      <td *matCellDef="let element" mat-cell>
+        <a (click)="onEditItem(element)" href="javascript:void(0)"><mat-icon>edit</mat-icon></a>
+        <a (click)="onDeleteItem(element)" href="javascript:void(0)"><mat-icon>delete</mat-icon></a>
+      </td>
+    </ng-container>
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns:displayedColumns" [ngClass]="{'editable-row': controlData.id === row.id }" mat-row></tr>
+  </table>
+  <!-- Paginator child component-->
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div>

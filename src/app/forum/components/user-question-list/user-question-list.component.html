@@ -1,0 +1,39 @@
+<div class="table-wrapper" *ngIf="!isQuestionSelect">
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+  </mat-form-field>
+  <!-- Data Table -->
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+    <ng-container matColumnDef="Ask">
+      <th *matHeaderCellDef mat-header-cell>Ask</th>
+      <td *matCellDef="let element" mat-cell>{{ element.ask }}</td>
+    </ng-container>
+    <ng-container matColumnDef="Category">
+      <th *matHeaderCellDef mat-header-cell>Category</th>
+      <td *matCellDef="let element" mat-cell>{{ element.category }}</td>
+    </ng-container>
+    <ng-container matColumnDef="Date">
+      <th *matHeaderCellDef mat-header-cell>Date</th>
+      <td *matCellDef="let element" mat-cell>{{ element.date }}</td>
+    </ng-container>
+    <ng-container matColumnDef="Actions">
+      <th *matHeaderCellDef mat-header-cell> Actions</th>
+      <td *matCellDef="let element" mat-cell>
+        <a (click)="onEditItem(element);$event.stopPropagation();" href="javascript:void(0)" style="color: #005f40"><mat-icon>edit</mat-icon></a>
+        <a (click)="onDeleteItem(element);$event.stopPropagation();" href="javascript:void(0)" style="color: #005f40"><mat-icon>delete</mat-icon></a>
+      </td>
+    </ng-container>
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns:displayedColumns" [ngClass]="{'editable-row': questionData.id === row.id }" mat-row (click)="onRowClicked(row)"></tr>
+  </table>
+  <!-- Paginator child component-->
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div>
+
+<div *ngIf="isQuestionSelect">
+  <button mat-flat-button class="green-bg" (click)="questionSelected()">Back</button>
+  <div>
+    <app-answer-list [question]="selectedQuestion" [isCommunityAnswers]="false"/>
+  </div>
+</div>

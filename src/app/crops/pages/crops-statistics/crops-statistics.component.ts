@@ -5,7 +5,7 @@ import { ChartComponent, ApexNonAxisChartSeries, ApexResponsive, ApexChart } fro
 import { MatCardModule } from '@angular/material/card';
 import { CropsService } from "../../services/crops.service";
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ControlsToCropService } from "../../services/controls-to-crop.service";
+import { ControlsService } from "../../services/controls.service";
 import { TemplateRef } from '@angular/core';
 
 export type ChartOptions = {
@@ -29,7 +29,7 @@ export class CropsStatisticsComponent implements OnInit {
   public mostRegisteredCrop: string = '';
   public mostControlledCrop: string = '';
 
-  constructor(private cropService: CropsService, private controlsService: ControlsToCropService, public dialog: MatDialog) { // Inyecta ControlsToCropService
+  constructor(private cropService: CropsService, private controlsService: ControlsService, public dialog: MatDialog) {
     this.chartOptions = {
       series: [],
       chart: {
@@ -133,7 +133,7 @@ export class CropsStatisticsComponent implements OnInit {
 @NgModule({
   declarations: [CropsStatisticsComponent],
   imports: [BrowserModule, NgApexchartsModule, MatCardModule,MatDialogModule],
-  providers: [CropsService, ControlsToCropService],
+  providers: [CropsService, ControlsService],
   bootstrap: [CropsStatisticsComponent]
 })
 export class AppModule { }
