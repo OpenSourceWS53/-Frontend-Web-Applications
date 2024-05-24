@@ -1,56 +1,33 @@
 import {Component, Inject, OnInit} from '@angular/core';
+import {FormsModule, NgForm} from "@angular/forms";
+import {MatFormField} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
 import {
   MatDialogRef,
-  MAT_DIALOG_DATA,
+  MatDialogContent,
   MatDialogActions,
-  MatDialogClose,
-  MatDialogContent, MatDialogTitle
-} from "@angular/material/dialog";
-
-import {Question} from "../../model/question.entity";
-import {ReactiveFormsModule} from "@angular/forms";
-import {MatButton} from "@angular/material/button";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatGridList, MatGridTile} from "@angular/material/grid-list";
-import {MatInput} from "@angular/material/input";
-import {QuestionsService} from "../../services/questions.service";
+  MatDialogTitle,
+  MatDialogClose
+} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog-delete-question',
   standalone: true,
-  imports: [
-    MatButton,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormField,
-    MatGridList,
-    MatGridTile,
-    MatInput,
-    MatLabel,
-    ReactiveFormsModule
-  ],
+  imports: [MatFormField, MatInputModule, MatButtonModule, FormsModule, MatDialogContent, MatDialogActions, MatDialogTitle, MatDialogClose],
   templateUrl: './dialog-delete-question.component.html',
   styleUrl: './dialog-delete-question.component.css'
 })
-export class DialogDeleteQuestionComponent implements OnInit {
+export class DialogDeleteQuestionComponent  {
   constructor(
-    private dialogReference: MatDialogRef<DialogDeleteQuestionComponent>,
-    @Inject(MAT_DIALOG_DATA) public dataQuestion: Question,
-    private questionService:QuestionsService
+    private dialogReference: MatDialogRef<DialogDeleteQuestionComponent>
   ) {
   }
-
-  ngOnInit(): void {
+  onCancel() {
+    this.dialogReference.close(null);
   }
 
-  deleteQuestion() {
-    if (this.dataQuestion) {
-      this.questionService.delete(this.dataQuestion.id).subscribe((response: any) => {
-        this.dialogReference.close(true);
-      });
-    }
-
+  onDeleteQuestion() {
+    this.dialogReference.close(true);
   }
 }

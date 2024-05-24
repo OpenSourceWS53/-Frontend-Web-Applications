@@ -12,6 +12,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {AnswerListComponent} from "../answer-list/answer-list.component";
 import {DialogAddEditQuestionComponent} from "../dialog-add-edit-question/dialog-add-edit-question.component";
 import {MatDialog} from "@angular/material/dialog";
+import {DialogDeleteQuestionComponent} from "../dialog-delete-question/dialog-delete-question.component";
 
 
 @Component({
@@ -50,7 +51,6 @@ export class UserQuestionListComponent implements AfterViewInit, OnInit {
   }
 
 
-
   openDialog(question?: Question): void {
     const dialogRef = this.dialog.open(DialogAddEditQuestionComponent, {
       width: '500px',
@@ -81,7 +81,14 @@ export class UserQuestionListComponent implements AfterViewInit, OnInit {
   }
 
   onDeleteItem(element: Question) {
-    this.questionDeleted.emit(element);
+    const dialogRef = this.dialog.open(DialogDeleteQuestionComponent);
+
+    dialogRef.afterClosed().subscribe((result)=>{
+      if(result){
+        this.questionDeleted.emit(element);
+      }
+    })
+
   }
   // UI Event Handlers
 
