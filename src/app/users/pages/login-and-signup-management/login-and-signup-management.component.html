@@ -1,1 +1,2 @@
-<p>login-and-signup-management works!</p>
+<app-user-log-in *ngIf="showLogin" (switchToRegister)="onSwitchToRegister()"></app-user-log-in>
+<app-user-register *ngIf="!showLogin" (switchToLogin)="onSwitchToLogin()"></app-user-register>
