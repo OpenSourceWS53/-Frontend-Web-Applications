@@ -8,6 +8,7 @@ import {CropsStatisticsComponent} from "./crops/pages/crops-statistics/crops-sta
 import {ForumManagementComponent} from "./forum/pages/forum-management/forum-management.component";
 import {LoginAndSignupManagementComponent} from "./users/pages/login-and-signup-management/login-and-signup-management.component";
 import {SubscriptionsComponent} from "./users/components/subscriptions/subscriptions.component";
+import {ProfileEditComponent} from "./users/pages/profile-edit/profile-edit.component";
 
 export const routes: Routes = [
     {path:'home', component: HomeComponent},
@@ -18,6 +19,7 @@ export const routes: Routes = [
     {path:'forum',component:ForumManagementComponent},
     {path:'signup',component:LoginAndSignupManagementComponent},
     {path:'subscriptions',component:SubscriptionsComponent},
+    {path:'profile',component:ProfileEditComponent},
     { path: '', redirectTo: 'signup', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
 ];

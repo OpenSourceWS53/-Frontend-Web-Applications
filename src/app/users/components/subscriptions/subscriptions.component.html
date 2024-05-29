@@ -1,1 +1,18 @@
-<p>subscriptions works!</p>
+<div class="card-container">
+  <div *ngFor="let subscription of subscriptions; let i = index">
+    <mat-card class="subscription-card" [ngStyle]="{'background-color': getBackgroundColor(i)}">
+      <mat-card-header>
+        <mat-card-title class="title">{{ subscription.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ subscription.description }}</p>
+        <p>{{ subscription.price }} PEN/month</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="button-container">
+          <button mat-raised-button [ngStyle]="{'background-color': '#005F40', 'border': '1px solid black'}" (click)="goToProfile()">Buy Now</button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
