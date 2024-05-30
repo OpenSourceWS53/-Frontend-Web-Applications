@@ -20,8 +20,8 @@
     <ng-container matColumnDef="Actions">
       <th *matHeaderCellDef mat-header-cell> Actions</th>
       <td *matCellDef="let element" mat-cell>
-        <a (click)="onEditItem(element);$event.stopPropagation();" href="javascript:void(0)" style="color: #005f40"><mat-icon>edit</mat-icon></a>
-        <a (click)="onDeleteItem(element);$event.stopPropagation();" href="javascript:void(0)" style="color: #005f40"><mat-icon>delete</mat-icon></a>
+        <a (click)="onEditItem(element);$event.stopPropagation();" href="javascript:void(0)" style="color: orange"><mat-icon>edit</mat-icon></a>
+        <a (click)="onDeleteItem(element);$event.stopPropagation();" href="javascript:void(0)" style="color: red"><mat-icon>delete</mat-icon></a>
       </td>
     </ng-container>
     <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
