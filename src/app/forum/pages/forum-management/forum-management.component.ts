@@ -55,10 +55,15 @@ export class ForumManagementComponent {
 
   private createQuestion() {
     this.questionsService.create(this.questionData).subscribe((response: any) => {
-      this.dataSource.data.push({...response});
+      /*this.dataSource.data.push({...response});
       this.dataSource.data = this.dataSource.data.map((question: Question) => { return question; });
       this.dataSourceCommunity.data.push({...response});
-      this.dataSourceCommunity.data = this.dataSourceCommunity.data.map((question: Question) => { return question; });
+      this.dataSourceCommunity.data = this.dataSourceCommunity.data.map((question: Question) => { return question; });*/
+      const updatedCommunityData = [...this.dataSourceCommunity.data, response];
+      this.dataSourceCommunity.data = updatedCommunityData;
+
+      const updatedUserData = [...this.dataSource.data, response];
+      this.dataSource.data = updatedUserData;
     });
   };
 
