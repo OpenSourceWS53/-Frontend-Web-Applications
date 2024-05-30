@@ -13,8 +13,8 @@
     </mat-form-field>
 
     <ng-container *ngIf="editMode; else elseTemplate">
-      <button mat-raised-button color="primary">Update</button>
-      <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+      <button mat-raised-button class="green-bg" >Update</button>
+      <button mat-raised-button class="green-bg" (click)="onCancel()">Cancel</button>
     </ng-container>
     <ng-template #elseTemplate>
       <button mat-raised-button>Add Control</button>
