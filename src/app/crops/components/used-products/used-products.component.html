@@ -5,7 +5,9 @@
                                 (productAdded)="onProductAdded($event)"
                                 (productUpdated)="onProductUpdated($event)"
                                 [editMode]="isEditMode"
-                                [product]="productData"></app-products-create-and-edit>
+                                [product]="productData"
+                                [showForm]="showForm"
+                                (showFormChange)="showForm = $event"></app-products-create-and-edit>
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
     <ng-container matColumnDef="date">

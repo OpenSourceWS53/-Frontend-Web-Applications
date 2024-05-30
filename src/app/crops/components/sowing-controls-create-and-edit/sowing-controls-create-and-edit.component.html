@@ -1,5 +1,5 @@
 <div class="form-section">
-  <button mat-raised-button (click)="showForm = true" *ngIf="!showForm">Add Control</button>
+  <button mat-raised-button (click)="showFormChange.emit(true);" *ngIf="!showForm">Add Control</button>
 
   <form *ngIf="showForm" (submit)="onSubmit()" #controlForm='ngForm' class="form-row">
     <mat-form-field>

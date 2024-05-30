@@ -26,9 +26,11 @@ export class UsedProductsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false}) sort!: MatSort;
   isEditMode: boolean;
+  showForm: boolean;
 
   constructor(private productsService: ProductsService) {
     this.isEditMode = false;
+    this.showForm = false;
     this.productData = {} as Product;
     this.dataSource = new MatTableDataSource<any>();
   }
@@ -77,6 +79,7 @@ private createProduct() {
   onEditItem(element: Product) {
     this.isEditMode = true;
     this.productData = element;
+    this.showForm = true;
   }
 
   onDeleteItem(element: Product) {

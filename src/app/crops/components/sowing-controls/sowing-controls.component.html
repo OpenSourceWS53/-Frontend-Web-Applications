@@ -6,7 +6,9 @@
                                 (controlAdded)="onControlAdded($event)"
                                 (controlUpdated)="onControlUpdated($event)"
                                 [editMode]="isEditMode"
-                                [control]="controlData">
+                                [control]="controlData"
+                                [showForm]="showForm"
+                                       (showFormChange)="showForm = $event">
   </app-sowing-controls-create-and-edit>
 
   <!-- Data Table -->
