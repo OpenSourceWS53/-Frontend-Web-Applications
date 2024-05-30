@@ -5,7 +5,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatIconModule } from "@angular/material/icon";
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {NgClass, NgIf} from "@angular/common";
+import {DatePipe, NgClass, NgIf} from "@angular/common";
 import {Question} from "../../model/question.entity";
 import {QuestionsService} from "../../services/questions.service";
 import {MatButtonModule} from '@angular/material/button';
@@ -18,7 +18,7 @@ import {DialogDeleteQuestionComponent} from "../dialog-delete-question/dialog-de
 @Component({
   selector: 'app-user-question-list',
   standalone: true,
-  imports: [MatPaginator, MatSort, MatIconModule, MatTableModule, NgClass, MatFormFieldModule, MatInputModule, MatButtonModule, NgIf, AnswerListComponent],
+  imports: [MatPaginator, MatSort, MatIconModule, MatTableModule, NgClass, MatFormFieldModule, MatInputModule, MatButtonModule, NgIf, AnswerListComponent, DatePipe],
   templateUrl: './user-question-list.component.html',
   styleUrl: './user-question-list.component.css'
 })
