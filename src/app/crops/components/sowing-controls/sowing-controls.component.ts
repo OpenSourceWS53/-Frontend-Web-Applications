@@ -26,9 +26,11 @@ export class SowingsControlsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false}) sort!: MatSort;
   isEditMode: boolean;
+  showForm: boolean;
 
   constructor(private sowingsService: SowingsService) {
     this.isEditMode = false;
+    this.showForm = false;
     this.controlData = {} as Control;
     this.dataSource = new MatTableDataSource<any>();
   }
@@ -49,6 +51,7 @@ export class SowingsControlsComponent implements OnInit, AfterViewInit {
 
   // CRUD Actions
   private createControl() {
+    this.controlData.date = new Date().toISOString().slice(0,10);
     this.sowingsService.create(this.controlData).subscribe((response: any) => {
       this.dataSource.data.push({...response});
       this.dataSource.data = this.dataSource.data.map((control: Control) => { return control; });
@@ -77,6 +80,7 @@ export class SowingsControlsComponent implements OnInit, AfterViewInit {
 
   onEditItem(element: Control) {
     this.isEditMode = true;
+    this.showForm = true;
     this.controlData = element;
   }
 

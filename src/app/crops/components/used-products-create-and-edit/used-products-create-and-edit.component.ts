@@ -16,14 +16,15 @@ import {NgIf} from "@angular/common";
   styleUrl: './used-products-create-and-edit.component.css'
 })
 export class UsedProductsCreateAndEditComponent {
-  
+
   @Input() product: Product;
   @Input() editMode = false;
   @Output() productAdded = new EventEmitter<Product>();
   @Output() productUpdated = new EventEmitter<Product>();
   @Output() editCanceled = new EventEmitter();
+  @Output() showFormChange = new EventEmitter<boolean>();
   @ViewChild('productForm', {static: false}) productForm!: NgForm;
-  showForm = false;
+  @Input() showForm = false;
 
   // Methods
   constructor() {
@@ -46,12 +47,12 @@ export class UsedProductsCreateAndEditComponent {
     } else {
       console.error('Invalid data in form');
     }
-    this.showForm = false;
+    this.showFormChange.emit(false);
   }
 
   onCancel() {
     this.editCanceled.emit();
     this.resetEditState();
-    this.showForm = false;
+    this.showFormChange.emit(false);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialog} from "@angular/material/dialog";
@@ -10,7 +10,11 @@ import {UserQuestionListComponent} from "../../components/user-question-list/use
 import {Question} from "../../model/question.entity";
 import {QuestionsService} from "../../services/questions.service";
 import {MatTableDataSource} from "@angular/material/table";
+import {DialogDeleteQuestionComponent} from "../../components/dialog-delete-question/dialog-delete-question.component";
 
+
+interface onInit {
+}
 
 @Component({
   selector: 'app-forum-management',
@@ -20,7 +24,7 @@ import {MatTableDataSource} from "@angular/material/table";
   templateUrl: './forum-management.component.html',
   styleUrl: './forum-management.component.css'
 })
-export class ForumManagementComponent {
+export class ForumManagementComponent implements onInit {
 
   questionData: Question;
   isEditMode: boolean;
@@ -55,10 +59,15 @@ export class ForumManagementComponent {
 
   private createQuestion() {
     this.questionsService.create(this.questionData).subscribe((response: any) => {
-      this.dataSource.data.push({...response});
+      /*this.dataSource.data.push({...response});
       this.dataSource.data = this.dataSource.data.map((question: Question) => { return question; });
       this.dataSourceCommunity.data.push({...response});
-      this.dataSourceCommunity.data = this.dataSourceCommunity.data.map((question: Question) => { return question; });
+      this.dataSourceCommunity.data = this.dataSourceCommunity.data.map((question: Question) => { return question; });*/
+      const updatedCommunityData = [...this.dataSourceCommunity.data, response];
+      this.dataSourceCommunity.data = updatedCommunityData;
+
+      const updatedUserData = [...this.dataSource.data, response];
+      this.dataSource.data = updatedUserData;
     });
   };
 
@@ -109,7 +118,7 @@ export class ForumManagementComponent {
           this.onQuestionAdded(result);
         }
       }
-      this.getAllQuestions();
+      this.onCancelEdit();
     });
   }
 
@@ -127,10 +136,17 @@ export class ForumManagementComponent {
   onEditItem(element: Question) {
     this.isEditMode = true;
     this.questionData = element;
+    this.openDialog(element);
   }
 
   onDeleteItem(element: Question) {
-    this.deleteQuestion(element.id);
+    const dialogRef = this.dialog.open(DialogDeleteQuestionComponent);
+
+    dialogRef.afterClosed().subscribe((result)=>{
+      if(result){
+        this.deleteQuestion(element.id);
+      }
+    })
   }
 
   onCancelEdit() {
