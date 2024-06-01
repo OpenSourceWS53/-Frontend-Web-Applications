@@ -22,8 +22,9 @@ export class SowingControlsCreateAndEditComponent {
   @Output() controlAdded = new EventEmitter<{sowingId: number, control: Control}>();
   @Output() controlUpdated = new EventEmitter<{sowingId: number, control: Control}>();
   @Output() editCanceled = new EventEmitter();
+  @Output() showFormChange = new EventEmitter<boolean>();
   @ViewChild('controlForm', {static: false}) controlForm!: NgForm;
-  showForm = false;
+  @Input() showForm = false;
 
   constructor() {
     this.control = {} as Control;
@@ -43,12 +44,12 @@ export class SowingControlsCreateAndEditComponent {
     } else {
       console.error('Invalid data in form');
     }
-    this.showForm = false;
+    this.showFormChange.emit(false);
   }
 
   onCancel() {
     this.editCanceled.emit();
     this.resetEditState();
-    this.showForm = false;
+    this.showFormChange.emit(false);
   }
 }

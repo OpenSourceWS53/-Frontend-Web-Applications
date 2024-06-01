@@ -15,13 +15,13 @@
     </ng-container>
     <ng-container matColumnDef="Date">
       <th *matHeaderCellDef mat-header-cell>Date</th>
-      <td *matCellDef="let element" mat-cell>{{ element.date }}</td>
+      <td *matCellDef="let element" mat-cell>{{ element.date | date: 'yyyy-MM-dd' }}</td>
     </ng-container>
     <ng-container matColumnDef="Actions">
       <th *matHeaderCellDef mat-header-cell> Actions</th>
       <td *matCellDef="let element" mat-cell>
-        <a (click)="onEditItem(element);$event.stopPropagation();" href="javascript:void(0)" style="color: #005f40"><mat-icon>edit</mat-icon></a>
-        <a (click)="onDeleteItem(element);$event.stopPropagation();" href="javascript:void(0)" style="color: #005f40"><mat-icon>delete</mat-icon></a>
+        <a (click)="onEditItem.emit(element);$event.stopPropagation();" href="javascript:void(0)" style="color: orange"><mat-icon>edit</mat-icon></a>
+        <a (click)="onQuestionDeleted.emit(element);$event.stopPropagation();" href="javascript:void(0)" style="color: red"><mat-icon>delete</mat-icon></a>
       </td>
     </ng-container>
     <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
@@ -32,7 +32,7 @@
 </div>
 
 <div *ngIf="isQuestionSelect">
-  <button mat-flat-button class="green-bg" (click)="questionSelected()">Back</button>
+  <button mat-flat-button class="green-bg" (click)="returnQuestions()">Back</button>
   <div>
     <app-answer-list [question]="selectedQuestion" [isCommunityAnswers]="false"/>
   </div>
