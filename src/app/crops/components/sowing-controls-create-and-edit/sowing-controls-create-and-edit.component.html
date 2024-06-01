@@ -1,5 +1,5 @@
 <div class="form-section">
-  <button mat-raised-button (click)="showForm = true" *ngIf="!showForm">Add Control</button>
+  <button mat-raised-button (click)="showFormChange.emit(true);" *ngIf="!showForm">Add Control</button>
 
   <form *ngIf="showForm" (submit)="onSubmit()" #controlForm='ngForm' class="form-row">
     <mat-form-field>
@@ -13,8 +13,8 @@
     </mat-form-field>
 
     <ng-container *ngIf="editMode; else elseTemplate">
-      <button mat-raised-button color="primary">Update</button>
-      <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+      <button mat-raised-button class="green-bg" >Update</button>
+      <button mat-raised-button class="green-bg" (click)="onCancel()">Cancel</button>
     </ng-container>
     <ng-template #elseTemplate>
       <button mat-raised-button>Add Control</button>
