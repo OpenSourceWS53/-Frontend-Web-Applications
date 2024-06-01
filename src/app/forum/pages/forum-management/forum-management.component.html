@@ -9,12 +9,9 @@
                                    [dataSource]="dataSourceCommunity"/>
     </mat-tab>
     <mat-tab class= "custom-tab" label="My Questions">
-      <app-user-question-list (editCanceled)="onGetAllQuestions()"
-                              (questionAdded)="onQuestionAdded($event)"
-                              (questionUpdated)="onQuestionUpdated($event)"
-                              (questionDeleted)="onDeleteItem($event)"
-                              (editItem)="onEditItem($event)"
-                              (getQuestions)="onGetAllQuestionsCommunity()"
+      <app-user-question-list (onEditItem)="onEditItem($event)"
+                              (onQuestionDeleted)="onDeleteItem($event)"
+                              (getQuestions)="onGetAllQuestions()"
                               [isEditMode]="isEditMode"
                               [dataSource]="dataSource"/>
     </mat-tab>
