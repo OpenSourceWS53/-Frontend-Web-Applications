@@ -32,7 +32,7 @@ export class SowingGeneralInformationComponent implements OnInit{
       this.sowingsService.getAll().pipe(
         map((sowings: any) => {
           const sowingArray: Sowing[] = sowings;
-          return sowingArray.find((sowing: Sowing) => sowing.id === this.sowingId); // Use this.sowingId here
+          return sowingArray.find((sowing: Sowing) => sowing.id === this.sowingId);
         })
       ).subscribe((response: any) => {
         this.data = response;
