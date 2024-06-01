@@ -1,0 +1,44 @@
+.card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.subscription-card {
+  flex: 1 0 21%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.title {
+  font-size: 36px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+button[mat-raised-button] {
+  border: 2px solid #005F40;
+  border-radius: 4px;
+  padding: 10px 20px;
+  background-color: #005F40;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button[mat-raised-button]:hover {
+  background-color: #003F20;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
