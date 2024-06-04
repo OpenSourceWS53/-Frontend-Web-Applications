@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialog} from "@angular/material/dialog";
@@ -13,8 +13,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {DialogDeleteQuestionComponent} from "../../components/dialog-delete-question/dialog-delete-question.component";
 
 
-interface onInit {
-}
+
 
 @Component({
   selector: 'app-forum-management',
@@ -24,7 +23,7 @@ interface onInit {
   templateUrl: './forum-management.component.html',
   styleUrl: './forum-management.component.css'
 })
-export class ForumManagementComponent implements onInit {
+export class ForumManagementComponent implements OnInit {
 
   questionData: Question;
   isEditMode: boolean;
