@@ -1,3 +1,63 @@
-<div class="center-container">
-  <button mat-raised-button (click)="goToHome()">Go to Home</button>
+<div class="smaller-div" *ngIf="dataLoaded">
+  <mat-card>
+    <mat-grid-list cols="3" rowHeight="1:2">
+      <mat-grid-tile colspan="1">
+        <div class="profile-header">
+          <h2 class="black">My Profile</h2>
+          <img class="rounded-full large-image" alt="avatar" src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg">
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="2">
+        <mat-list>
+          <div style="display: flex; align-items: center;">
+            <h3 mat-line class="black">Name:  </h3>
+            <mat-form-field class="example-full-width">
+              <input matInput [disabled]="boolName" [value]="userData?.firstName">
+            </mat-form-field>
+            <button *ngIf="!boolName" mat-flat-button (click)="saveNameChange()"><mat-icon style="color: #005f40">check</mat-icon></button>
+          </div>
+          <a class="text-sm" (click)="changeName()">Change Name</a>
+          <mat-divider class="black"></mat-divider>
+          <div style="display: flex; align-items: center;">
+            <h3 mat-line class="black">Email:  </h3>
+            <mat-form-field class="example-full-width">
+              <input matInput [disabled]="boolEmail" [value]="userData?.email">
+            </mat-form-field>
+            <button *ngIf="!boolEmail" mat-flat-button (click)="saveEmailChange()"><mat-icon style="color: #005f40">check</mat-icon></button>
+          </div>
+          <a class="text-sm" (click)="changeEmail()">Change Email</a>
+          <mat-divider class="black"></mat-divider>
+          <div style="display: flex; align-items: center;">
+            <h3 mat-line class="black">Country:  </h3>
+            <mat-form-field class="example-full-width">
+              <input matInput [disabled]="boolCountry" value="Country">
+            </mat-form-field>
+            <button *ngIf="!boolCountry" mat-flat-button (click)="saveCountryChange()"><mat-icon style="color: #005f40">check</mat-icon></button>
+          </div>
+          <a class="text-sm" (click)="changeCountry()">Change Country</a>
+          <mat-divider class="black"></mat-divider>
+          <div style="display: flex; align-items: center;">
+            <h3 mat-line class="black">City:  </h3>
+            <mat-form-field class="example-full-width">
+              <input matInput [disabled]="boolCity" value="City">
+            </mat-form-field>
+            <button *ngIf="!boolCity" mat-flat-button (click)="saveCityChange()"><mat-icon style="color: #005f40">check</mat-icon></button>
+          </div>
+          <a class="text-sm" (click)="changeCity()">Change City</a>
+          <mat-divider class="black"></mat-divider>
+          <div style="display: flex; align-items: center;">
+            <h3 mat-line class="black">Password:  </h3>
+            <mat-form-field class="example-full-width">
+              <input matInput [disabled]="boolPassword" [value]="userData?.password">
+            </mat-form-field>
+            <button *ngIf="!boolPassword" mat-flat-button (click)="savePasswordChange()"><mat-icon style="color: #005f40">check</mat-icon></button>
+          </div>
+          <a class="text-sm" (click)="changePassword()">Change Password</a>
+          <mat-divider class="black"></mat-divider>
+          <h3 mat-line class="black">Account</h3>
+          <a class="text-sm-red">Delete Account</a>
+        </mat-list>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card>
 </div>
