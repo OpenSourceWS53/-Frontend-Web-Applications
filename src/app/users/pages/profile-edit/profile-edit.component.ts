@@ -10,7 +10,6 @@ import {UsersService} from "../../services/users.service";
 import {User} from "../../model/user.entity";
 import {NgIf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
-import {DomSanitizer} from '@angular/platform-browser';
 import {MatButton} from "@angular/material/button";
 
 @Component({
