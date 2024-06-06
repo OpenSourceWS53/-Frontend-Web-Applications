@@ -28,6 +28,11 @@ export class ProfileEditComponent implements OnInit {
   boolPassword: boolean;
   dataLoaded: boolean = false;
   userData: User = new User();
+  newName: string;
+  newEmail: string;
+  newCountry: string;
+  newCity: string;
+  newPassword: string;
 
   constructor(private usersServices: UsersService) {
     this.boolName = true;
@@ -35,12 +40,23 @@ export class ProfileEditComponent implements OnInit {
     this.boolCountry = true;
     this.boolCity = true;
     this.boolPassword = true;
+    this.newName = "";
+    this.newEmail = "";
+    this.newCountry = "";
+    this.newCity = "";
+    this.newPassword = "";
   }
-
+  private buildData(userData: User){
+    this.newName = userData.firstName + " " + userData.lastName;
+    this.newEmail = userData.email;
+    this.newCountry = "Country";
+    this.newCity = "City";
+    this.newPassword = userData.password;
+  }
   private getUserData() {
     this.usersServices.getByIdParam("id",1).subscribe((response: any) => {
-      this.userData = response;
-      console.log(this.userData);
+      this.userData = response[0];
+      this.buildData(this.userData);
       this.dataLoaded = true;
     });
   }
@@ -49,15 +65,16 @@ export class ProfileEditComponent implements OnInit {
     this.boolName = false;
   }
 
-  saveNameChange(){
+  saveNameChange(newName: string){
     this.boolName = true;
+    console.log(newName);
   }
 
   changeEmail() {
     this.boolEmail = false;
   }
 
-  saveEmailChange(){
+  saveEmailChange(newEmail: string){
     this.boolEmail = true;
   }
 
@@ -65,7 +82,7 @@ export class ProfileEditComponent implements OnInit {
     this.boolCountry = false;
   }
 
-  saveCountryChange(){
+  saveCountryChange(newCountry: string){
     this.boolCountry = true;
   }
 
@@ -73,7 +90,7 @@ export class ProfileEditComponent implements OnInit {
     this.boolCity = false;
   }
 
-  saveCityChange(){
+  saveCityChange(newCity: string){
     this.boolCity = true;
   }
 
@@ -81,7 +98,7 @@ export class ProfileEditComponent implements OnInit {
     this.boolPassword = false;
   }
 
-  savePasswordChange(){
+  savePasswordChange(newPassword: string){
     this.boolPassword = true;
   }
 
@@ -90,6 +107,7 @@ export class ProfileEditComponent implements OnInit {
   }
 
   ngOnInit() {
-   this.getUserData();
-  }
+  this.getUserData();
+  this.newName = this.userData?.firstName + " " + this.userData?.lastName;
+}
 }
