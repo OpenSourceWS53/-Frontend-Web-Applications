@@ -1,6 +1,58 @@
-.sign-in-content {
+.content {
+  text-align: center;
+  width: 25%;
+  margin: auto;
+  margin-top: 50px;
+  border: 1px solid #ccc;
+  color: #333;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
+}
+
+.title{
+  font-size: 36px;
+}
+
+.full-width {
+  width: 100%;
+  display: flex;
+}
+
+.full-width input {
+  font-size: 20px;
+  width: 100%;
+}
+
+.large-icon {
+  margin-top: 20px;
+  font-size: 64px;
+  height: 64px;
+  width: 64px;
+}
+
+.white-placeholder::placeholder {
+  background-color: white;
+  color: #000;
+  opacity: 1;
+}
+
+button[mat-button] {
+  border: 2px solid #005F40;
+  border-radius: 4px;
+  padding: 10px 20px;
+  background-color: #005F40;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  margin-right: 40px;
+}
+
+button[mat-button]:last-child {
+  margin-right: 0;
+}
+
+button[mat-button]:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
