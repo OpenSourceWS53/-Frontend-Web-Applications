@@ -1,29 +1,41 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from "@angular/forms";
-import { MatFormField } from "@angular/material/form-field";
+import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
-import { NgIf } from "@angular/common";
-
+import { MatSelectModule } from "@angular/material/select"; // Add this
+import { CropsService } from "../../services/crops.service";
+import { Crop } from '../../model/crop.entity';
+import { CommonModule } from "@angular/common"; // Add this
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 import { Sowing } from "../../model/sowing.entity";
 
 @Component({
   selector: 'app-sowings-create-and-edit',
   standalone: true,
-  imports: [MatFormField, MatInputModule, MatButtonModule, FormsModule, NgIf],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    FormsModule,
+    CommonModule, // Add this
+    MatSelectModule // Add this
+  ],
   templateUrl: './sowings-create-and-edit.component.html',
-  styleUrl: './sowings-create-and-edit.component.css'
+  styleUrls: ['./sowings-create-and-edit.component.css']
 })
-export class SowingsCreateAndEditComponent {
+export class SowingsCreateAndEditComponent implements OnInit {
   @Input() sowing: Sowing;
   @Input() editMode = false;
   @Output() sowingAdded = new EventEmitter<Sowing>();
   @Output() sowingUpdated = new EventEmitter<Sowing>();
   @Output() editCanceled = new EventEmitter();
   @ViewChild('sowingForm', {static: false}) sowingForm!: NgForm;
+  crops: Crop[] = [];
 
-  constructor() {
-    this.sowing = {} as Sowing;
+  constructor(private cropsService: CropsService) {
+      this.sowing = {} as Sowing;
   }
 
   private resetEditState() {
@@ -48,6 +60,21 @@ export class SowingsCreateAndEditComponent {
     }
   }
 
+
+
+  ngOnInit() {
+    this.cropsService.getAll().pipe(
+      catchError(error => {
+        console.error('Error:', error);
+        console.log("hola");
+        return throwError(error);
+      })
+    ).subscribe(crops => {
+      console.log(crops);
+      console.log("hola");
+      this.crops = crops;
+    });
+  }
   onCancel() {
     this.editCanceled.emit();
     this.resetEditState();

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from "../../../environments/environment";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { catchError, Observable, retry, throwError } from "rxjs";
+import { AuthenticationService } from "../../iam/services/authentication.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,11 @@ export class BaseService<T> {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-type': 'application/json',
+      'Authorization': `Bearer ${this.authService.getToken()}`, // replace `this.authService.getToken()` with your method of getting the token
     })
-  }
+  };
 
-  constructor(private http: HttpClient) {  }
+  constructor(private http: HttpClient, private authService: AuthenticationService) {  } // Inject AuthenticationService here
 
   handleError(error: HttpErrorResponse) {
     // Default error handling
@@ -51,8 +53,8 @@ export class BaseService<T> {
   }
 
   // Get All Resources
-  getAll(): Observable<T> {
-    return this.http.get<T>(this.resourcePath(), this.httpOptions)
+  getAll(): Observable<T[]> {
+    return this.http.get<T[]>(this.resourcePath(), this.httpOptions)
         .pipe(retry(2), catchError(this.handleError));
   }
 

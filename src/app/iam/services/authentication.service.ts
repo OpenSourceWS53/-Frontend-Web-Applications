@@ -100,5 +100,7 @@ export class AuthenticationService {
     localStorage.removeItem('token');
     this.router.navigate(['/sign-in']).then();
   }
-
+  getToken(): string {
+    return localStorage.getItem('token') || '';
+  }
 }
