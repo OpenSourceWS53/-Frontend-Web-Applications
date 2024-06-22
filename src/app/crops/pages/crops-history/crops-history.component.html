@@ -1,42 +1,52 @@
-<div class="card-container">
-  <mat-card>
-
-    <h1 class="text-center">Crop History</h1>
-    <mat-form-field>
-      <mat-label>Search Records</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
-    </mat-form-field>
-
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; height: 500px;">
-
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let element">
-          <mat-icon *ngIf="element.status == 'true'; else notCheckedIcon" style="color:green;">check_circle</mat-icon>
-          <ng-template #notCheckedIcon><mat-icon style="color:red;">cancel</mat-icon></ng-template>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> View Record </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-raised-button color="primary">See </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-      </tr>
-    </table>
-
-
-  </mat-card>
+<div class="text-center">
+  <h1>Crop History</h1>
 </div>
+<div class="card-container mat-elevation-z8">
+  <mat-form-field>
+    <mat-label>Search Records</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Id</th>
+      <td mat-cell *matCellDef="let element"> {{ element.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="start_date">
+      <th mat-header-cell *matHeaderCellDef>Planted Date</th>
+      <td mat-cell *matCellDef="let element"> {{ element.start_date }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="harvest_date">
+      <th mat-header-cell *matHeaderCellDef>Harvest Date</th>
+      <td mat-cell *matCellDef="let element"> {{ element.harvest_date }}</td>
+    </ng-container>
+    <ng-container matColumnDef="controls">
+      <th mat-header-cell *matHeaderCellDef>Controls</th>
+      <td mat-cell *matCellDef="let element"> {{ element.controls }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> View Record</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary">See</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]" [pageSize]="5" showFirstLastButtons ></mat-paginator>
+</div>
+

@@ -1,6 +1,30 @@
-.center-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.smaller-div {
+  width: 55rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  display: block;
 }
+
+.large-image {
+  height: 250px;
+  width: 250px;
+  border-radius: 50%;
+}
+
+.black{
+  color: black;
+}
+
+.text-sm {
+  color: blue;
+  font-size: 0.7rem;
+  text-decoration: underline;
+}
+
+.text-sm-red {
+  color: red;
+  font-size: 0.7rem;
+  text-decoration: underline;
+}
+
