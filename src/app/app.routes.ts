@@ -16,7 +16,7 @@ export const routes: Routes = [
     {path:'home', component: HomeComponent , canActivate: [authenticationGuard]},
     {path:'mycrops', component: SowingsManagementComponent, canActivate: [authenticationGuard]},
     {path:'history', component: CropsHistoryComponent, canActivate: [authenticationGuard]},
-    {path: 'info/:id', component: SowingInformationComponent, canActivate: [authenticationGuard] },
+    {path: 'info/:id', component: SowingInformationComponent},
     {path:'statistics', component: CropsStatisticsComponent, canActivate: [authenticationGuard]},
     {path:'forum',component:ForumManagementComponent, canActivate: [authenticationGuard]},
     { path: 'sign-in', component: SignInComponent },

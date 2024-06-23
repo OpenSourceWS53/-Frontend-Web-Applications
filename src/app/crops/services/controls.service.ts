@@ -10,6 +10,6 @@ import { AuthenticationService } from '../../iam/services/authentication.service
 export class ControlsService extends BaseService<Control>{
    constructor(http: HttpClient, authService: AuthenticationService) {
      super(http, authService);
-    this.resourceEndpoint = '/controls';
+     this.resourceEndpoint = `/sowings/${sowingId}/controls`;
   }
 }

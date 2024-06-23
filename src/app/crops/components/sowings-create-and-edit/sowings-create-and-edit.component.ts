@@ -3,13 +3,18 @@ import { FormsModule, NgForm } from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
-import { MatSelectModule } from "@angular/material/select"; // Add this
+import { MatSelectModule } from "@angular/material/select";
 import { CropsService } from "../../services/crops.service";
 import { Crop } from '../../model/crop.entity';
-import { CommonModule } from "@angular/common"; // Add this
+import { CommonModule } from "@angular/common";
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { Sowing } from "../../model/sowing.entity";
+import { Sowing, PhenologicalPhase } from "../../model/sowing.entity";
+
+export interface SowingRequest {
+  cropId: number;
+  areaLand: number;
+}
 
 @Component({
   selector: 'app-sowings-create-and-edit',
@@ -19,8 +24,8 @@ import { Sowing } from "../../model/sowing.entity";
     MatInputModule,
     MatButtonModule,
     FormsModule,
-    CommonModule, // Add this
-    MatSelectModule // Add this
+    CommonModule,
+    MatSelectModule
   ],
   templateUrl: './sowings-create-and-edit.component.html',
   styleUrls: ['./sowings-create-and-edit.component.css']
@@ -28,8 +33,8 @@ import { Sowing } from "../../model/sowing.entity";
 export class SowingsCreateAndEditComponent implements OnInit {
   @Input() sowing: Sowing;
   @Input() editMode = false;
-  @Output() sowingAdded = new EventEmitter<Sowing>();
-  @Output() sowingUpdated = new EventEmitter<Sowing>();
+  @Output() sowingAdded = new EventEmitter<SowingRequest>();
+  @Output() sowingUpdated = new EventEmitter<SowingRequest>();
   @Output() editCanceled = new EventEmitter();
   @ViewChild('sowingForm', {static: false}) sowingForm!: NgForm;
   crops: Crop[] = [];
@@ -46,32 +51,25 @@ export class SowingsCreateAndEditComponent implements OnInit {
 
   onSubmit() {
     if (this.sowingForm.form.valid) {
-      if (!this.editMode) {
-        this.sowing.phenological_phase = 'Germination';
-        let startDate = new Date(this.sowing.start_date);
-        let harvestDate = new Date(startDate.setMonth(startDate.getMonth() + 6));
-        this.sowing.harvest_date = harvestDate.toISOString().split('T')[0];
-      }
+      let newSowing: SowingRequest = {
+        cropId: this.sowing.cropId,
+        areaLand: this.sowing.areaLand
+      };
       let emitter = this.editMode ? this.sowingUpdated : this.sowingAdded;
-      emitter.emit(this.sowing);
+      emitter.emit(newSowing);
       this.resetEditState();
     } else {
       console.error('Invalid data in form');
     }
   }
 
-
-
   ngOnInit() {
     this.cropsService.getAll().pipe(
       catchError(error => {
         console.error('Error:', error);
-        console.log("hola");
         return throwError(error);
       })
     ).subscribe(crops => {
-      console.log(crops);
-      console.log("hola");
       this.crops = crops;
     });
   }

@@ -7,11 +7,12 @@ import { MatButtonModule } from "@angular/material/button";
 import { NgIf } from "@angular/common";
 import { Control } from "../../model/control.entity";
 import { NgForm } from "@angular/forms";
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-sowing-controls-create-and-edit',
   standalone: true,
-  imports: [MatFormField, MatInputModule, MatButtonModule, FormsModule, NgIf],
+  imports: [MatFormField, MatInputModule, MatButtonModule, FormsModule, NgIf,MatSelectModule],
   templateUrl: './sowing-controls-create-and-edit.component.html',
   styleUrl: './sowing-controls-create-and-edit.component.css',
 })

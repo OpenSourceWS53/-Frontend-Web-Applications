@@ -64,7 +64,30 @@ export class BaseService<T> {
 
   }
 
-  private resourcePath(): string {
+  getById(id: any): Observable<T> {
+    return this.http.get<T>(`${this.resourcePath()}/${id}`, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
+
+  // CRUD related to controls
+  getControls(sowingId: number): Observable<T[]> {
+      return this.http.get<T[]>(this.resourcePathForControls(sowingId), this.httpOptions)
+          .pipe(retry(2), catchError(this.handleError));
+    }
+
+  createControl(sowingId: number, control: any): Observable<T> {
+        return this.http.post<T>(this.resourcePathForControls(sowingId), JSON.stringify(control), this.httpOptions)
+            .pipe(retry(2), catchError(this.handleError));
+            }
+  deleteControl(sowingId: number, controlId: number) {
+    return this.http.delete(`${this.resourcePathForControls(sowingId)}/${controlId}`, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
+
+  protected resourcePath(): string {
     return `${this.basePath}${this.resourceEndpoint}`;
   }
+  protected resourcePathForControls(sowingId: number): string {
+      return `${this.resourcePath()}/${sowingId}/controls`;
+    }
 }

@@ -1,23 +1,31 @@
-<div class="form-section">
-  <button mat-raised-button (click)="showFormChange.emit(true);" *ngIf="!showForm">Add Control</button>
+<form *ngIf="showForm || !editMode" (submit)="onSubmit()" #controlForm='ngForm' class="form-row">
+  <mat-form-field>
+    <mat-select placeholder="Sowing Condition" name="sowingCondition" required [(ngModel)]="control.sowingCondition">
+      <mat-option value="DRY">DRY</mat-option>
+      <mat-option value="MOIST">MOIST</mat-option>
+      <mat-option value="NORMAL">NORMAL</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Sowing Soil Moisture" name="sowingSoilMoisture" required [(ngModel)]="control.sowingSoilMoisture">
+      <mat-option value="DRY">DRY</mat-option>
+      <mat-option value="MOIST">MOIST</mat-option>
+      <mat-option value="NORMAL">NORMAL</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Sowing Stem Condition" name="sowingStemCondition" required [(ngModel)]="control.sowingStemCondition">
+      <mat-option value="DRY">DRY</mat-option>
+      <mat-option value="MOIST">MOIST</mat-option>
+      <mat-option value="NORMAL">NORMAL</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-  <form *ngIf="showForm" (submit)="onSubmit()" #controlForm='ngForm' class="form-row">
-    <mat-form-field>
-      <input matInput placeholder="Leave" name="leave" required [(ngModel)]="control.leave">
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Stem" name="stem" required [(ngModel)]="control.stem">
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Soil" name="soil" required [(ngModel)]="control.soil">
-    </mat-form-field>
-
-    <ng-container *ngIf="editMode; else elseTemplate">
-      <button mat-raised-button class="green-bg" >Update</button>
-      <button mat-raised-button class="green-bg" (click)="onCancel()">Cancel</button>
-    </ng-container>
-    <ng-template #elseTemplate>
-      <button mat-raised-button>Add Control</button>
-    </ng-template>
-  </form>
-</div>
+  <ng-container *ngIf="editMode; else elseTemplate">
+    <button mat-raised-button class="green-bg" >Update</button>
+    <button mat-raised-button class="green-bg" (click)="onCancel()">Cancel</button>
+  </ng-container>
+  <ng-template #elseTemplate>
+    <button mat-raised-button>Add Control</button>
+  </ng-template>
+</form>

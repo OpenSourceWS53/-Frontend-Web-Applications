@@ -1,29 +1,32 @@
-import { Control } from './control.entity';
+import { PhenologicalPhase } from './phenological-phase';
+export { PhenologicalPhase } from './phenological-phase';
+
+export class DateRange {
+  startDate: string;
+  endDate: string;
+
+  constructor() {
+    this.startDate = "";
+    this.endDate = "";
+  }
+}
 
 export class Sowing {
   id: number;
-  start_date: string;
-  harvest_date: string;
-  area_land: number;
-  userId: number;
+  dateRange: DateRange;
+  profileId: number;
+  areaLand: number;
+  status: boolean;
   cropId: number;
-  crop_name: string;
-  phenological_phase: string;
-  description: string;
-  crop_info: any;
-  controls: Control[];
+  phenologicalPhase: PhenologicalPhase;
 
   constructor() {
     this.id = 0;
-    this.start_date = "";
-    this.harvest_date = "";
-    this.area_land = 0;
-    this.userId = 0;
+    this.dateRange = new DateRange();
+    this.profileId = 0;
+    this.areaLand = 0;
+    this.status = false;
     this.cropId = 0;
-    this.crop_name="";
-    this.phenological_phase = "";
-    this.description = "";
-    this.crop_info = {};
-    this.controls = [];
+    this.phenologicalPhase = PhenologicalPhase.GERMINATION;
   }
 }

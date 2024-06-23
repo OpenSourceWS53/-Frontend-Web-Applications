@@ -1,0 +1,7 @@
+export enum PhenologicalPhase {
+  GERMINATION,
+  SEEDLING,
+  VEGETATIVE_GROWTH,
+  FLOWERING,
+  HARVEST_READY
+}

@@ -9,7 +9,7 @@ import { AuthenticationService } from '../../iam/services/authentication.service
 })
 export class SowingsService extends BaseService<Sowing>{
   constructor(http: HttpClient, authService: AuthenticationService) {
-        super(http, authService);
-  this.resourceEndpoint = '/crops/sowings';
+    super(http, authService);
+    this.resourceEndpoint = '/sowings';
   }
 }
