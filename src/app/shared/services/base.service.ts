@@ -84,6 +84,32 @@ export class BaseService<T> {
         .pipe(retry(2), catchError(this.handleError));
   }
 
+  // Create Product
+  createProduct(sowingId: number, product: any): Observable<T> {
+    return this.http.post<T>(`${this.resourcePathForProducts(sowingId)}`, JSON.stringify(product), this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
+
+  // Get All Products
+  getProducts(): Observable<T[]> {
+    return this.http.get<T[]>(`${this.basePath}/products`, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
+
+  // Get All Products for a specific sowing
+  getAllProductsForSowing(sowingId: number): Observable<T[]> {
+    return this.http.get<T[]>(`${this.resourcePathForProducts(sowingId)}`, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
+
+  deleteProduct(sowingId: number, productId: number) {
+  return this.http.delete(`${this.resourcePathForProducts(sowingId)}/${productId}`, this.httpOptions)
+      .pipe(retry(2), catchError(this.handleError));
+  }
+
+  protected resourcePathForProducts(sowingId: number): string {
+    return `${this.basePath}/sowings/${sowingId}/products`;
+  }
   protected resourcePath(): string {
     return `${this.basePath}${this.resourceEndpoint}`;
   }

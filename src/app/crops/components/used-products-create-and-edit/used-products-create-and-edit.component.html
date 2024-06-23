@@ -3,13 +3,19 @@
 
   <form *ngIf="showForm" (submit)="onSubmit()" #productForm='ngForm' class="form-row">
     <mat-form-field>
-      <input matInput placeholder="Product Type" name="type" required [(ngModel)]="product.type">
+      <mat-select placeholder="Product Type" name="productType" required [(ngModel)]="product.productType">
+        <mat-option value="PESTICIDE">PESTICIDE</mat-option>
+        <mat-option value="FERTILIZER">FERTILIZER</mat-option>
+        <mat-option value="HERBICIDE">HERBICIDE</mat-option>
+        <mat-option value="FUNGICIDE">FUNGICIDE</mat-option>
+        <mat-option value="OTHER">OTHER</mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field>
       <input matInput placeholder="Product Name" name="name" required [(ngModel)]="product.name">
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Product Quantity" name="quantity" required [(ngModel)]="product.quantity">
+      <input matInput type="number" placeholder="Product Quantity" name="quantity" required [(ngModel)]="product.quantity">
     </mat-form-field>
 
     <button mat-raised-button class="green-bg">{{ editMode ? 'Update' : 'Add' }}</button>

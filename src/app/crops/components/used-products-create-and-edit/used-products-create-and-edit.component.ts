@@ -8,10 +8,12 @@ import {MatFormFieldControl} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {NgIf} from "@angular/common";
+import { MatSelectModule } from '@angular/material/select';
+
 @Component({
   selector: 'app-products-create-and-edit',
   standalone: true,
-  imports: [MatFormField, MatInputModule, MatButtonModule, FormsModule, NgIf],
+  imports: [MatFormField, MatInputModule, MatButtonModule, FormsModule, NgIf,    MatSelectModule],
   templateUrl: './used-products-create-and-edit.component.html',
   styleUrl: './used-products-create-and-edit.component.css'
 })
