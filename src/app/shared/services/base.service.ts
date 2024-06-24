@@ -106,7 +106,10 @@ export class BaseService<T> {
   return this.http.delete(`${this.resourcePathForProducts(sowingId)}/${productId}`, this.httpOptions)
       .pipe(retry(2), catchError(this.handleError));
   }
-
+  getAllControls(): Observable<T[]> {
+    return this.http.get<T[]>(`${this.basePath}/sowings/controls`, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
   protected resourcePathForProducts(sowingId: number): string {
     return `${this.basePath}/sowings/${sowingId}/products`;
   }
