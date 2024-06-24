@@ -1,16 +1,16 @@
 export class Product {
   id: number;
-  sowing_id: number;
-  date: string;
-  type: string;
+  sowingId: number;
   name: string;
-  quantity: string;
+  quantity: number;
+  productType: string;
+  appliedDate: string;
   constructor() {
     this.id = 0;
-    this.sowing_id= 0;
-    this.date = '';
-    this.type = "";
+    this.sowingId = 0;
     this.name = "";
-    this.quantity = "";
+    this.quantity = 0;
+    this.productType = "";
+    this.appliedDate = '';
   }
 }

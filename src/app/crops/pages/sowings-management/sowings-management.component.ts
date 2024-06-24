@@ -10,7 +10,11 @@ import { Router } from '@angular/router'; // Import Router
 
 import { SowingsService } from "../../services/sowings.service";
 import { Sowing } from "../../model/sowing.entity";
-import { SowingsCreateAndEditComponent } from "../../components/sowings-create-and-edit/sowings-create-and-edit.component";
+import { SowingsCreateAndEditComponent, SowingRequest } from "../../components/sowings-create-and-edit/sowings-create-and-edit.component";
+import { DateRange, PhenologicalPhase } from "../../model/sowing.entity";
+import { CropsService } from "../../services/crops.service";
+import { mergeMap, map } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-sowings-management',
@@ -27,7 +31,7 @@ export class SowingsManagementComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, { static: false}) sort!: MatSort;
   isEditMode: boolean;
 
-  constructor(private sowingService: SowingsService, private router: Router) {
+  constructor(private sowingService: SowingsService, private cropsService: CropsService, private router: Router) {
     this.isEditMode = false;
     this.sowingData = {} as Sowing;
     this.dataSource = new MatTableDataSource<any>();
@@ -39,11 +43,23 @@ export class SowingsManagementComponent implements OnInit, AfterViewInit {
   }
 
   private getAllSowings() {
-    this.sowingService.getAll().subscribe((response: any) => {
-      console.log(response);
-      this.dataSource.data = response;
+    this.sowingService.getAll().pipe(
+      mergeMap((sowings: Sowing[]) => {
+        const sowingObservables = sowings.map((sowing: Sowing) => {
+          return this.cropsService.getById(sowing.cropId).pipe(
+            map((crop: any) => {
+                        console.log(crop); // Log the crop object
+              return { ...sowing, cropName: crop.name };
+            })
+          );
+        });
+        return forkJoin(sowingObservables);
+      })
+    ).subscribe((sowingsWithCropName: any[]) => {
+      console.log(sowingsWithCropName);
+      this.dataSource.data = sowingsWithCropName;
     });
-  };
+  }
 
   private createSowing() {
     this.sowingService.create(this.sowingData).subscribe((response: any) => {
@@ -63,7 +79,22 @@ export class SowingsManagementComponent implements OnInit, AfterViewInit {
       });
     });
   };
-
+  getPhenologicalPhaseName(phase: PhenologicalPhase): string {
+            switch(phase) {
+              case PhenologicalPhase.GERMINATION:
+                return 'Germination';
+              case PhenologicalPhase.SEEDLING:
+                return 'Seedling';
+              case PhenologicalPhase.VEGETATIVE_GROWTH:
+                return 'Vegetative Growth';
+              case PhenologicalPhase.FLOWERING:
+                return 'Flowering';
+              case PhenologicalPhase.HARVEST_READY:
+                return 'Harvest Ready';
+              default:
+                return 'Unknown';
+            }
+          }
   private deleteSowing(sowingId: number) {
     this.sowingService.delete(sowingId).subscribe(() => {
       this.dataSource.data = this.dataSource.data.filter((sowing: Sowing) => {
@@ -86,14 +117,14 @@ export class SowingsManagementComponent implements OnInit, AfterViewInit {
     this.getAllSowings();
   }
 
-  onSowingAdded(element: Sowing) {
-    this.sowingData = element;
+  onSowingAdded(element: SowingRequest) {
+    this.sowingData = {...element, id: 0, dateRange: new DateRange(), profileId: 0, status: false, phenologicalPhase: PhenologicalPhase.GERMINATION};
     this.createSowing();
     this.resetEditState();
   }
 
-  onSowingUpdated(element: Sowing) {
-    this.sowingData = element;
+  onSowingUpdated(element: SowingRequest) {
+    this.sowingData = {...element, id: this.sowingData.id, dateRange: this.sowingData.dateRange, profileId: this.sowingData.profileId, status: this.sowingData.status, phenologicalPhase: this.sowingData.phenologicalPhase};
     this.updateSowing();
     this.resetEditState();
   }

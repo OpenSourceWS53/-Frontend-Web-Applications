@@ -10,20 +10,20 @@
                                 (showFormChange)="showForm = $event"></app-products-create-and-edit>
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-    <ng-container matColumnDef="date">
+    <ng-container matColumnDef="appliedDate">
       <th *matHeaderCellDef mat-header-cell mat-sort-header> Date</th>
-      <td *matCellDef="let element" mat-cell>{{ element.date }}</td>
+      <td *matCellDef="let element" mat-cell>{{ element.appliedDate }}</td>
     </ng-container>
-    <ng-container matColumnDef="type">
+    <ng-container matColumnDef="productType">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Type</th>
-      <td *matCellDef="let element" mat-cell>{{ element.type }}</td>
+      <td *matCellDef="let element" mat-cell>{{ element.productType }}</td>
     </ng-container>
     <ng-container matColumnDef="name">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Name</th>
       <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
     </ng-container>
     <ng-container matColumnDef="quantity">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header>Quantity</th>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Quantity(gr.)</th>
       <td *matCellDef="let element" mat-cell>{{ element.quantity }}</td>
     </ng-container>
     <ng-container matColumnDef="actions">

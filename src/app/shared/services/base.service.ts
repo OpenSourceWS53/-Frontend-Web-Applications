@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from "../../../environments/environment";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { catchError, Observable, retry, throwError } from "rxjs";
+import { AuthenticationService } from "../../iam/services/authentication.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,11 @@ export class BaseService<T> {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-type': 'application/json',
+      'Authorization': `Bearer ${this.authService.getToken()}`, // replace `this.authService.getToken()` with your method of getting the token
     })
-  }
+  };
 
-  constructor(private http: HttpClient) {  }
+  constructor(private http: HttpClient, private authService: AuthenticationService) {  } // Inject AuthenticationService here
 
   handleError(error: HttpErrorResponse) {
     // Default error handling
@@ -51,8 +53,8 @@ export class BaseService<T> {
   }
 
   // Get All Resources
-  getAll(): Observable<T> {
-    return this.http.get<T>(this.resourcePath(), this.httpOptions)
+  getAll(): Observable<T[]> {
+    return this.http.get<T[]>(this.resourcePath(), this.httpOptions)
         .pipe(retry(2), catchError(this.handleError));
   }
 
@@ -62,7 +64,56 @@ export class BaseService<T> {
 
   }
 
-  private resourcePath(): string {
+  getById(id: any): Observable<T> {
+    return this.http.get<T>(`${this.resourcePath()}/${id}`, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
+
+  // CRUD related to controls
+  getControls(sowingId: number): Observable<T[]> {
+      return this.http.get<T[]>(this.resourcePathForControls(sowingId), this.httpOptions)
+          .pipe(retry(2), catchError(this.handleError));
+    }
+
+  createControl(sowingId: number, control: any): Observable<T> {
+        return this.http.post<T>(this.resourcePathForControls(sowingId), JSON.stringify(control), this.httpOptions)
+            .pipe(retry(2), catchError(this.handleError));
+            }
+  deleteControl(sowingId: number, controlId: number) {
+    return this.http.delete(`${this.resourcePathForControls(sowingId)}/${controlId}`, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
+
+  // Create Product
+  createProduct(sowingId: number, product: any): Observable<T> {
+    return this.http.post<T>(`${this.resourcePathForProducts(sowingId)}`, JSON.stringify(product), this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
+
+  // Get All Products
+  getProducts(): Observable<T[]> {
+    return this.http.get<T[]>(`${this.basePath}/products`, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
+
+  // Get All Products for a specific sowing
+  getAllProductsForSowing(sowingId: number): Observable<T[]> {
+    return this.http.get<T[]>(`${this.resourcePathForProducts(sowingId)}`, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
+
+  deleteProduct(sowingId: number, productId: number) {
+  return this.http.delete(`${this.resourcePathForProducts(sowingId)}/${productId}`, this.httpOptions)
+      .pipe(retry(2), catchError(this.handleError));
+  }
+
+  protected resourcePathForProducts(sowingId: number): string {
+    return `${this.basePath}/sowings/${sowingId}/products`;
+  }
+  protected resourcePath(): string {
     return `${this.basePath}${this.resourceEndpoint}`;
   }
+  protected resourcePathForControls(sowingId: number): string {
+      return `${this.resourcePath()}/${sowingId}/controls`;
+    }
 }

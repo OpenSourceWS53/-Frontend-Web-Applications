@@ -8,6 +8,7 @@ import { NgClass } from "@angular/common";
 import { ProductsService } from "../../services/products.service";
 import { Product } from "../../model/product.entity";
 import { UsedProductsCreateAndEditComponent } from "../used-products-create-and-edit/used-products-create-and-edit.component";
+import { MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'app-used-products',
@@ -22,9 +23,10 @@ export class UsedProductsComponent implements OnInit, AfterViewInit {
   @Input() sowingId!: number;
   productData: Product;
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = ['date', 'type', 'name', 'quantity','actions'];
+  displayedColumns: string[] = ['appliedDate', 'productType', 'name', 'quantity','actions'];
   @ViewChild(MatPaginator, { static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false}) sort!: MatSort;
+  @ViewChild(MatTable) table!: MatTable<any>;
   isEditMode: boolean;
   showForm: boolean;
 
@@ -36,9 +38,9 @@ export class UsedProductsComponent implements OnInit, AfterViewInit {
   }
 
   private getAllProducts() {
-    this.productsService.getAll().subscribe((response: any) => {
+    this.productsService.getAllProductsForSowing(this.sowingId).subscribe((response: any) => {
       console.log(response);
-      this.dataSource.data = response.filter((product: any) => product.sowing_id === this.sowingId);
+      this.dataSource.data = response;
     });
   };
 
@@ -48,9 +50,15 @@ export class UsedProductsComponent implements OnInit, AfterViewInit {
   }
 
 private createProduct() {
-  this.productData.sowing_id = this.sowingId;
-  this.productData.date = new Date().toISOString().slice(0,10);
-  this.productsService.create(this.productData).subscribe((response: any) => {
+  let newProduct = {
+    sowingId: Number(this.sowingId), // make sure sowingId is a number
+    name: this.productData.name,
+    quantity: Number(this.productData.quantity), // make sure quantity is a number
+    productType: this.productData.productType
+  };
+  console.log('Creating product with the following attributes:', newProduct);
+
+  this.productsService.createProduct(this.sowingId, newProduct).subscribe((response: any) => {
     this.dataSource.data.push({...response});
     this.dataSource.data = this.dataSource.data.map((product: Product) => { return product; });
   });
@@ -69,11 +77,20 @@ private createProduct() {
   };
 
   private deleteProduct(productId: number) {
-    this.productsService.delete(productId).subscribe(() => {
-      this.dataSource.data = this.dataSource.data.filter((product: Product) => {
-        return product.id !== productId ? product : false;
-      });
-    });
+    // Find the index of the product to be deleted
+    const productIndex = this.dataSource.data.findIndex((product) => product.id === productId);
+
+    // Remove the product from the data source
+    if (productIndex > -1) {
+      this.dataSource.data.splice(productIndex, 1);
+
+      // Update the table data source and render the rows
+      this.dataSource = new MatTableDataSource(this.dataSource.data);
+      this.table.renderRows();
+    }
+
+    // Make the request to the server to delete the product
+    this.productsService.deleteProduct(this.sowingId, productId).subscribe();
   };
 
   onEditItem(element: Product) {

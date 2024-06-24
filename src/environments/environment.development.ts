@@ -1,4 +1,4 @@
 export const environment = {
-    production: false,
-    serverBasePath: 'https://my-json-server.typicode.com/SI729-WS53-AgriCulture'
+    production: true,
+    serverBasePath: 'http://localhost:8090/api/v1'
 };

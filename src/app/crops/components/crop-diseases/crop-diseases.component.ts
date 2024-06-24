@@ -1,13 +1,14 @@
-import {AfterViewInit, Component, OnInit, ViewChild, Input} from '@angular/core'; // Import Input
+import {AfterViewInit, Component, OnInit, ViewChild, Input} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {DiseasesService} from "../../services/diseases.service";
-import {SowingsService} from "../../services/sowings.service"; // Import SowingsService
-
-
+import {PestsService} from "../../services/pests.service";
+import {SowingsService} from "../../services/sowings.service";
+import { map, switchMap } from 'rxjs/operators';
+import {CropsService} from "../../services/crops.service";
 
 @Component({
   selector: 'app-crop-diseases',
@@ -21,29 +22,39 @@ export class CropDiseasesComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['name', 'description', 'solution'];
   dataSource!: MatTableDataSource<any>;
 
-  constructor(private diseasesService:DiseasesService, private sowingsService: SowingsService) {
+  constructor(private diseasesService:DiseasesService, private pestsService: PestsService, private sowingsService: SowingsService, private cropsService: CropsService) {
     this.dataSource = new MatTableDataSource<any>;
   }
 
-  private getAllDiseases() {
-  this.sowingsService.getAll().subscribe((sowings: any) => {
-    console.log('Received sowings:', sowings);
-    const sowing = sowings.find((sowing: any) => sowing.id === this.sowingId);
-    if (sowing) {
-      const cropId = sowing.crop_id;
-      this.diseasesService.getAll().subscribe((response: any) => {
-        console.log('Received diseases:', response); // Log received diseases
-        const filteredDiseases = response.filter((disease: any) => disease.crop_id === cropId);
-        this.dataSource = new MatTableDataSource<any>(filteredDiseases);
-        this.dataSource.paginator = this.paginator;
-      });
-    }
+  private getAllDiseasesAndPests() {
+  this.sowingsService.getById(this.sowingId).pipe(
+    switchMap((sowing: any) => this.cropsService.getById(sowing.cropId)), // Use cropsService here
+    map((crop: any) => {
+      console.log('Crop data:', crop); // Log the crop object
+      return crop;
+    }),
+    switchMap((crop: any) => {
+      return this.diseasesService.getAll().pipe(
+        map((diseases: any) => {
+          return { diseases: diseases.filter((disease: any) => crop.diseases.includes(disease.id)), pestsIds: crop.pests };
+        })
+      );
+    }),
+    switchMap((data: any) => {
+      return this.pestsService.getAll().pipe(
+        map((pests: any) => {
+          return [...data.diseases, ...pests.filter((pest: any) => data.pestsIds.includes(pest.id))];
+        })
+      );
+    })
+  ).subscribe((allData: any) => {
+    this.dataSource = new MatTableDataSource<any>(allData);
+    this.dataSource.paginator = this.paginator;
   });
 }
 
-
   ngOnInit() {
-    this.getAllDiseases();
+    this.getAllDiseasesAndPests();
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
