@@ -51,8 +51,9 @@ export class AnswerListComponent implements  AfterViewInit, OnInit {
   // CRUD Actions
 
   private getAnswersByQuestionId() {
-    this.answersService.getByIdParam('questionId', this.question.id).subscribe((response: any) => {
+    this.answersService.getByQuestionId( this.question.id).subscribe((response: any) => {
       this.dataSource.data = response;
+      console.log(this.dataSource.data);
     });
   };
 
@@ -128,6 +129,8 @@ export class AnswerListComponent implements  AfterViewInit, OnInit {
 
   onAnswerAdded(element: Answer) {
     this.answerData = element;
+    this.answerData.questionId = this.question.id;
+    this.answerData.userId = 1;
     console.log(this.answerData);
     this.createAnswer();
     this.resetEditState();
@@ -138,9 +141,6 @@ export class AnswerListComponent implements  AfterViewInit, OnInit {
     this.updateAnswer();
     this.resetEditState();
   }
-
-
-
 
   // Lifecycle Hooks
 

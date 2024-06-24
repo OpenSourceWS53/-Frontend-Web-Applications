@@ -1,15 +1,13 @@
 export class Question {
   id: number;
-  userName: string;
-  ask: string;
-  category: string;
-  date: Date;
+  userId: number;
+  questionText: string;
+  categoryId: number;
 
   constructor(){
     this.id = 0;
-    this.userName = '';
-    this.ask = '';
-    this.category = '';
-    this.date = new Date();
+    this.userId = 0;
+    this.questionText = '';
+    this.categoryId = 0;
   }
 }

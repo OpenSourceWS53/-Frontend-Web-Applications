@@ -14,4 +14,8 @@ export class AnswersService extends BaseService<Answer> {
     this.resourceEndpoint = '/forum/answers';
   }
 
+  getByQuestionId(id: number) {
+    return this.http.get(`${this.resourcePath()}/question/${id}`, this.httpOptions);
+  }
+
 }
