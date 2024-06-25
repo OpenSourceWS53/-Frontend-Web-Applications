@@ -2,14 +2,16 @@
 <h2>{{ editMode ? 'Edit Question' : 'New Question' }}</h2>
 <div class="form-section">
   <form #questionForm='ngForm' class="form-row">
-    <mat-form-field>
-      <input matInput placeholder="User Name" name="userName" required [(ngModel)]="question.userName">
-    </mat-form-field>
     <mat-form-field id="age-form-field">
-      <input matInput placeholder="Category" name="category" required [(ngModel)]="question.category">
+      <mat-label>Category</mat-label>
+      <mat-select [(value)]="question.categoryId">
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{category.name}}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Ask" name="ask" required [(ngModel)]="question.ask">
+      <input matInput placeholder="Ask" name="ask" required [(ngModel)]="question.questionText">
     </mat-form-field>
     <ng-container *ngIf="editMode; else elseTemplate">
       <div>

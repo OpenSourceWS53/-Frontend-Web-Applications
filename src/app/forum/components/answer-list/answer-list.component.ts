@@ -11,6 +11,9 @@ import {AnswersService} from "../../services/answers.service";
 import {MatDialog} from "@angular/material/dialog";
 import {Answer} from "../../model/answer.entity";
 import {DialogAddAnswerComponent} from "../dialog-add-answer/dialog-add-answer.component";
+import {forkJoin} from "rxjs";
+import {ProfilesForumService} from "../../services/profiles-forum.service";
+import {ProfileForum} from "../../model/profile-forum.entity";
 
 
 
@@ -30,13 +33,14 @@ export class AnswerListComponent implements  AfterViewInit, OnInit {
 
   answerData: Answer;
   dataSource!: MatTableDataSource<any>;
+  profiles: Array<ProfileForum>=[];
   displayedColumns: string[] = ['content'];
   @ViewChild(MatPaginator, { static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false}) sort!: MatSort;
   isEditMode: boolean;
 
   // Constructor
-  constructor(private answersService: AnswersService,private dialog: MatDialog) {
+  constructor(private answersService: AnswersService, private profilesService: ProfilesForumService, private dialog: MatDialog) {
     this.dataSource = new MatTableDataSource<any>();
     this.answerData = {} as Answer;
     this.isEditMode = false;
@@ -48,17 +52,37 @@ export class AnswerListComponent implements  AfterViewInit, OnInit {
     this.answerData = {} as Answer;
   }
 
+  private buildData(data: any) {
+    return data.map((answer: any) => {
+      return {
+        ...answer,
+        fullName: this.profiles.find((profile: ProfileForum) => profile.id === answer.userId)?.fullName
+      }
+    });
+  }
+
+  private buildItemData(data: any) {
+    const profile = this.profiles.find((profile: ProfileForum) => profile.id === data.userId)?.fullName
+
+    data.fullName = profile;
+    return data;
+  }
   // CRUD Actions
 
   private getAnswersByQuestionId() {
-    this.answersService.getByIdParam('questionId', this.question.id).subscribe((response: any) => {
-      this.dataSource.data = response;
+    forkJoin({
+      answers: this.answersService.getByQuestionId(this.question.id),
+      profiles: this.profilesService.getAll()
+    }).subscribe(({answers, profiles}) => {
+      this.profiles = profiles;
+      this.dataSource.data = this.buildData(answers);
     });
   };
 
   private createAnswer() {
     this.answersService.create(this.answerData).subscribe((response: any) => {
-      this.dataSource.data.push({...response});
+      let answer = this.buildItemData(response);
+      this.dataSource.data.push({...answer});
       this.dataSource.data = this.dataSource.data.map((answer: Answer) => { return answer; });
     });
   };
@@ -128,6 +152,8 @@ export class AnswerListComponent implements  AfterViewInit, OnInit {
 
   onAnswerAdded(element: Answer) {
     this.answerData = element;
+    this.answerData.questionId = this.question.id;
+    this.answerData.userId = 1;
     console.log(this.answerData);
     this.createAnswer();
     this.resetEditState();
@@ -138,9 +164,6 @@ export class AnswerListComponent implements  AfterViewInit, OnInit {
     this.updateAnswer();
     this.resetEditState();
   }
-
-
-
 
   // Lifecycle Hooks
 

@@ -2,11 +2,8 @@
 <h2>{{ editMode ? 'Edit Answer' : 'New Answer' }}</h2>
 <div class="form-section">
   <form #answerForm='ngForm' class="form-row">
-    <mat-form-field>
-      <input matInput placeholder="User Name" name="userName" required [(ngModel)]="answer.userName">
-    </mat-form-field>
     <mat-form-field id="age-form-field">
-      <input matInput placeholder="Content" name="content" required [(ngModel)]="answer.content">
+      <input matInput placeholder="Content" name="content" required [(ngModel)]="answer.answerText">
     </mat-form-field>
     <ng-container *ngIf="editMode; else elseTemplate">
       <div>

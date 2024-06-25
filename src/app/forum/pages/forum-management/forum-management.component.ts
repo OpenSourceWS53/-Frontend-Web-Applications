@@ -11,6 +11,11 @@ import {Question} from "../../model/question.entity";
 import {QuestionsService} from "../../services/questions.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {DialogDeleteQuestionComponent} from "../../components/dialog-delete-question/dialog-delete-question.component";
+import {CategoryService} from "../../services/category.service";
+import {Category} from "../../model/category.entity";
+import {forkJoin} from "rxjs";
+import {ProfilesForumService} from "../../services/profiles-forum.service";
+import {ProfileForum} from "../../model/profile-forum.entity";
 
 
 
@@ -29,7 +34,9 @@ export class ForumManagementComponent implements OnInit {
   isEditMode: boolean;
   dataSource!: MatTableDataSource<any>;
   dataSourceCommunity!: MatTableDataSource<any>;
-  constructor(private questionsService: QuestionsService,public dialog: MatDialog) {
+  categories: Array<Category> = [];
+  profiles: Array<ProfileForum>=[];
+  constructor(private questionsService: QuestionsService,private categoriesService: CategoryService, private profilesService: ProfilesForumService ,public dialog: MatDialog) {
     this.isEditMode = false;
     this.questionData = {} as Question;
     this.dataSource = new MatTableDataSource<any>();
@@ -43,30 +50,69 @@ export class ForumManagementComponent implements OnInit {
   }
 
   // CRUD Actions
-
+  private buildData(data: any){
+      return data.map((question: any) => {
+        return {
+          ...question,
+          ask: question.questionText,
+          category: this.categories.find((category: Category) => category.id === question.categoryId)?.name,
+          userName: this.profiles.find((profile: ProfileForum) => profile.id === question.userId)?.fullName
+        }
+      });
+  }
+  private buildItemData(data:any){
+    // Encuentra la categoría correspondiente
+    const category = this.categories.find((category: Category) => category.id === data.categoryId);
+    const profile = this.profiles.find((profile: ProfileForum) => profile.id === data.userId);
+    // Agrega las propiedades 'category' y 'ask' al objeto de respuesta
+    data.category = category?.name;
+    data.ask = data.questionText;
+    data.userName = profile?.fullName;
+    return data;
+  }
   private getAllQuestions() {
-    this.questionsService.getAll().subscribe((response: any) => {
-      this.dataSourceCommunity.data = response;
+    forkJoin({
+      questions: this.questionsService.getAll(),
+      categories: this.categoriesService.getAll(),
+      profiles: this.profilesService.getAll()
+    }).subscribe(({questions, categories, profiles}) => {
+      this.categories = categories;
+      this.profiles = profiles;
+      this.dataSourceCommunity.data = this.buildData(questions);
+      console.log(profiles)
+      console.log(this.dataSourceCommunity.data);
     });
   };
 
   private getQuestionById() {
-    this.questionsService.getAll().subscribe((response: any) => {
-      this.dataSource.data = response;
+    forkJoin({
+      questions: this.questionsService.getAll(),
+      categories: this.categoriesService.getAll(),
+      profiles: this.profilesService.getAll()
+    }).subscribe(({questions, categories, profiles}) => {
+      this.categories = categories;
+      this.dataSource.data = this.buildData(questions);
+      this.profiles = profiles;
+      console.log(this.dataSource.data);
     });
+    // this.questionsService.getAll().subscribe((response: any) => {
+    //   this.dataSource.data = response;
+    // });
   }
 
   private createQuestion() {
     this.questionsService.create(this.questionData).subscribe((response: any) => {
-      /*this.dataSource.data.push({...response});
+      console.log(response);
+      let updatedData = this.buildItemData(response);
+      this.dataSource.data.push({...updatedData});
       this.dataSource.data = this.dataSource.data.map((question: Question) => { return question; });
-      this.dataSourceCommunity.data.push({...response});
-      this.dataSourceCommunity.data = this.dataSourceCommunity.data.map((question: Question) => { return question; });*/
-      const updatedCommunityData = [...this.dataSourceCommunity.data, response];
+      this.dataSourceCommunity.data.push({...updatedData});
+      this.dataSourceCommunity.data = this.dataSourceCommunity.data.map((question: Question) => { return question; });
+      /*const updatedCommunityData = [...this.dataSourceCommunity.data, response];
       this.dataSourceCommunity.data = updatedCommunityData;
 
       const updatedUserData = [...this.dataSource.data, response];
-      this.dataSource.data = updatedUserData;
+      this.dataSource.data = updatedUserData;*/
     });
   };
 
@@ -75,13 +121,15 @@ export class ForumManagementComponent implements OnInit {
     this.questionsService.update(this.questionData.id, questionToUpdate).subscribe((response: any) => {
       this.dataSource.data = this.dataSource.data.map((question: Question) => {
         if (question.id === response.id) {
-          return response;
+          let updatedData = this.buildItemData(response);
+          return updatedData;
         }
         return question;
       });
       this.dataSourceCommunity.data = this.dataSourceCommunity.data.map((question: Question) => {
         if (question.id === response.id) {
-          return response;
+          let updatedData = this.buildItemData(response);
+          return updatedData;
         }
         return question;
       });
@@ -143,6 +191,7 @@ export class ForumManagementComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result)=>{
       if(result){
+        console.log(element);
         this.deleteQuestion(element.id);
       }
     })
@@ -155,14 +204,14 @@ export class ForumManagementComponent implements OnInit {
 
   onQuestionAdded(element: Question) {
     this.questionData = element;
-    this.questionData.date = new Date();
+    this.questionData.userId = 1;
     console.log(this.questionData);
     this.createQuestion();
     this.resetEditState();
   }
 
   onQuestionUpdated(element: Question) {
-    this.questionData = element;
+      this.questionData = element;
     this.updateQuestion();
     this.resetEditState();
   }

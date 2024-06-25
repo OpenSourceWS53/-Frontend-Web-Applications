@@ -19,7 +19,8 @@ export class BaseService<T> {
     })
   };
 
-  constructor(protected http: HttpClient, protected authService: AuthenticationService) {  } // Inject AuthenticationService here
+  constructor(protected http: HttpClient, private authService: AuthenticationService) {  } // Inject AuthenticationService here
+
 
   handleError(error: HttpErrorResponse) {
     // Default error handling
