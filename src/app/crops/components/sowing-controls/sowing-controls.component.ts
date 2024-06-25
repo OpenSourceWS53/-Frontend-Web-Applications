@@ -59,7 +59,7 @@ export class SowingsControlsComponent implements OnInit, AfterViewInit {
 
   private updateControl() {
     let controlToUpdate = this.controlData;
-    this.sowingsService.update(this.controlData.id, controlToUpdate).subscribe((response: any) => {
+    this.sowingsService.updateControl(this.sowingId, this.controlData.id, controlToUpdate).subscribe((response: any) => {
       this.dataSource.data = this.dataSource.data.map((control: Control) => {
         if (control.id === response.id) {
           return response;

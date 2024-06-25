@@ -96,10 +96,14 @@ export class SowingsManagementComponent implements OnInit, AfterViewInit {
             }
           }
   private deleteSowing(sowingId: number) {
+    this.dataSource.data = this.dataSource.data.filter((sowing: Sowing) => {
+      return sowing.id !== sowingId;
+    });
+
+    // Then make the request to the back-end
     this.sowingService.delete(sowingId).subscribe(() => {
-      this.dataSource.data = this.dataSource.data.filter((sowing: Sowing) => {
-        return sowing.id !== sowingId ? sowing : false;
-      });
+    }, error => {
+      this.getAllSowings();
     });
   };
 

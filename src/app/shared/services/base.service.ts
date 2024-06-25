@@ -83,7 +83,10 @@ export class BaseService<T> {
     return this.http.delete(`${this.resourcePathForControls(sowingId)}/${controlId}`, this.httpOptions)
         .pipe(retry(2), catchError(this.handleError));
   }
-
+  updateControl(sowingId: number, controlId: number, control: any): Observable<T> {
+    return this.http.put<T>(`${this.resourcePathForControls(sowingId)}/${controlId}`, JSON.stringify(control), this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
   // Create Product
   createProduct(sowingId: number, product: any): Observable<T> {
     return this.http.post<T>(`${this.resourcePathForProducts(sowingId)}`, JSON.stringify(product), this.httpOptions)
