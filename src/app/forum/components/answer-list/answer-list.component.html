@@ -9,7 +9,7 @@
     <ng-container matColumnDef="content">
       <th mat-header-cell *matHeaderCellDef >{{ question.ask }} --- {{question.userName}} --- {{question.date}} </th>
       <td mat-cell *matCellDef="let element">
-        <p> {{element.userId}}:</p>
+        <p> {{element.fullName}}:</p>
         <p >"{{element.answerText}}" </p>
       </td>
     </ng-container>
