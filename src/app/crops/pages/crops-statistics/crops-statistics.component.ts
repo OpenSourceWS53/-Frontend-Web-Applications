@@ -3,9 +3,10 @@ import { NgModule, Component, OnInit, ViewChild } from "@angular/core";
 import { NgApexchartsModule } from "ng-apexcharts";
 import { ChartComponent, ApexNonAxisChartSeries, ApexResponsive, ApexChart } from "ng-apexcharts";
 import { MatCardModule } from '@angular/material/card';
-import { SowingsService } from "../../services/sowings.service"; // Importa SowingsService
+import { SowingsService } from "../../services/sowings.service";
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TemplateRef } from '@angular/core';
+import { CropsService } from "../../services/crops.service";
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -28,7 +29,11 @@ export class CropsStatisticsComponent implements OnInit {
   public mostRegisteredCrop: string = '';
   public mostControlledCrop: string = '';
 
-  constructor(private sowingsService: SowingsService, public dialog: MatDialog) {
+constructor(
+  private sowingsService: SowingsService,
+  private cropsService: CropsService,
+  public dialog: MatDialog
+) {
     this.chartOptions = {
       series: [],
       chart: {
@@ -50,7 +55,6 @@ export class CropsStatisticsComponent implements OnInit {
         }
       ]
     };
-
 
     this.controlChartOptions = {
       series: [],
@@ -75,65 +79,80 @@ export class CropsStatisticsComponent implements OnInit {
     };
   }
 
-  private getAllControls() {
-  this.sowingsService.getAll().subscribe((response: any) => {
-
-    if (response) {
-      const counts = response.reduce((acc: { [key: string]: number }, sowing: any) => {
-        acc[sowing.crop_name] = (acc[sowing.crop_name] || 0) + sowing.controls.length;
-        return acc;
-      }, {});
-
-
-      this.controlChartOptions.labels = Object.keys(counts);
-      this.controlChartOptions.series = Object.values(counts);
-
-      let maxCount = Math.max(...this.controlChartOptions.series);
-      let index = this.controlChartOptions.series.indexOf(maxCount);
-      this.mostControlledCrop = this.controlChartOptions.labels[index];
-    }
-  });
-};
-
-private getAllCrops() {
-  this.sowingsService.getAll().subscribe((response: any) => {
-
-    if (response) {
-      const counts = response.reduce((acc: { [key: string]: number }, sowing: any) => {
-        acc[sowing.crop_name] = (acc[sowing.crop_name] || 0) + 1;
-        return acc;
-      }, {});
-
-
-      this.chartOptions.labels = Object.keys(counts);
-      this.chartOptions.series = Object.values(counts);
-
-      let maxCount = Math.max(...this.chartOptions.series);
-      let index = this.chartOptions.series.indexOf(maxCount);
-      this.mostRegisteredCrop = this.chartOptions.labels[index];
-      }
-  });
-};
-  ngOnInit() {
-    this.getAllControls();
-    this.getAllCrops();
+  private countItems(items: any[]): { [key: string]: number } {
+    return items.reduce((acc: { [key: string]: number }, item: any) => {
+      acc[item] = (acc[item] || 0) + 1;
+      return acc;
+    }, {});
   }
 
- openDialog(): void {
-     this.dialog.open(this.registeredCropDialog, {
-       data: {
-         crop: this.mostRegisteredCrop
-       }
-     });
-   }
+  private getMaxItem(counts: { [key: string]: number }): string {
+    let maxCount = Math.max(...Object.values(counts));
+    return Object.keys(counts).find(key => counts[key] === maxCount) || '';
+  }
 
- openControlledCropDialog(): void {
-     this.dialog.open(this.controlledCropDialog, {
-       data: {
-         crop: this.mostControlledCrop
-       }
-     });
-   }
+  ngOnInit() {
+    const cropNames: { [key: string]: string } = {};
+
+    this.cropsService.getAll().subscribe((crops: any[]) => {
+      crops.forEach(crop => {
+        cropNames[crop.id] = crop.name;
+      });
+    });
+
+    this.sowingsService.getAll().subscribe((sowings: any[]) => {
+      if (sowings) {
+        const cropCounts = this.countItems(sowings.map((sowing: any) => sowing.cropId));
+
+        this.sowingsService.getAllControls().subscribe((controls: any[]) => {
+          if (controls) {
+            const controlCropCounts: { [key: string]: number } = {};
+
+            controls.forEach((control: any) => {
+              const sowing = sowings.find((sowing: any) => sowing.id === control.sowingId);
+              if (sowing) {
+                controlCropCounts[sowing.cropId] = (controlCropCounts[sowing.cropId] || 0) + 1;
+              }
+            });
+
+            for (const cropId in controlCropCounts) {
+              console.log(`Crop ${cropNames[cropId]} (${cropId}) has ${controlCropCounts[cropId]} controls.`);
+            }
+
+            this.chartOptions.series = Object.values(cropCounts);
+            this.chartOptions.labels = Object.keys(cropCounts).map(id => cropNames[id]);
+            this.controlChartOptions.series = Object.values(controlCropCounts);
+            this.controlChartOptions.labels = Object.keys(controlCropCounts).map(id => cropNames[id]);
+
+            const mostRegisteredCropId = this.getMaxItem(cropCounts);
+            this.cropsService.getById(mostRegisteredCropId).subscribe((crop: any) => {
+              this.mostRegisteredCrop = crop.name;
+            });
+
+            const mostControlledCropId = this.getMaxItem(controlCropCounts);
+            this.cropsService.getById(mostControlledCropId).subscribe((crop: any) => {
+              this.mostControlledCrop = crop.name;
+            });
+          }
+        });
+      }
+    });
+  }
+  openDialog(): void {
+    this.dialog.open(this.registeredCropDialog, {
+      data: {
+        crop: this.mostRegisteredCrop
+      }
+    });
+  }
+
+  openControlledCropDialog(): void {
+    this.dialog.open(this.controlledCropDialog, {
+      data: {
+        crop: this.mostControlledCrop
+      }
+    });
+  }
 }
 
 @NgModule({

@@ -9,7 +9,9 @@ import { SowingsService } from "../../services/sowings.service";
 import { MatIconModule } from '@angular/material/icon';
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-
+import { forkJoin } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators';
+import { CropsService } from '../../services/crops.service';
 @Component({
   selector: 'app-crops-history',
   standalone: true,
@@ -23,7 +25,7 @@ export class CropsHistoryComponent implements AfterViewInit, OnInit{
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false}) sort!: MatSort;
-  constructor(private sowingsService: SowingsService) {
+  constructor(private sowingsService: SowingsService, private cropsService: CropsService) {
   }
 
   applyFilter(event: Event) {
@@ -37,20 +39,37 @@ export class CropsHistoryComponent implements AfterViewInit, OnInit{
   }
 
   ngOnInit(): void {
-    this.sowingsService.getAll().subscribe((data: any) => {
-      console.log(data);
-      this.sowings = data.filter((sowing:any )=> sowing.status === "true").map((sowing: any) => {
-        return {
-          id: sowing.id,
-          name: sowing.crop_name,
-          start_date: sowing.start_date,
-          harvest_date: sowing.harvest_date,
-          controls: sowing.controls.length
-        };
+    this.sowingsService.getAll().subscribe((sowings: any) => {
+      console.log(sowings);
+
+      forkJoin(
+        sowings.map((sowing: any) =>
+          forkJoin({
+            controls: this.sowingsService.getControls(sowing.id),
+            crop: this.cropsService.getById(sowing.cropId)
+          }).pipe(
+            map(({ controls, crop }) => {
+
+              sowing.controls = controls.length;
+              sowing.crop_name = crop.name;
+
+              return sowing;
+            })
+          )
+        )
+      ).subscribe((sowingsWithControlsAndCropName: any) => {
+        this.sowings = sowingsWithControlsAndCropName.map((sowing: any) => {
+          return {
+            id: sowing.id,
+            name: sowing.crop_name,
+            dateRange: sowing.dateRange,
+            controls: sowing.controls
+          };
+        });
+        this.dataSource = new MatTableDataSource(this.sowings);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       });
-      this.dataSource = new MatTableDataSource(this.sowings);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
     });
   }
 }

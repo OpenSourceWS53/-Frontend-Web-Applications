@@ -21,6 +21,7 @@ export class BaseService<T> {
 
   constructor(protected http: HttpClient, private authService: AuthenticationService) {  } // Inject AuthenticationService here
 
+
   handleError(error: HttpErrorResponse) {
     // Default error handling
     if (error.error instanceof ErrorEvent) {
@@ -83,7 +84,10 @@ export class BaseService<T> {
     return this.http.delete(`${this.resourcePathForControls(sowingId)}/${controlId}`, this.httpOptions)
         .pipe(retry(2), catchError(this.handleError));
   }
-
+  updateControl(sowingId: number, controlId: number, control: any): Observable<T> {
+    return this.http.put<T>(`${this.resourcePathForControls(sowingId)}/${controlId}`, JSON.stringify(control), this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
   // Create Product
   createProduct(sowingId: number, product: any): Observable<T> {
     return this.http.post<T>(`${this.resourcePathForProducts(sowingId)}`, JSON.stringify(product), this.httpOptions)
@@ -106,7 +110,10 @@ export class BaseService<T> {
   return this.http.delete(`${this.resourcePathForProducts(sowingId)}/${productId}`, this.httpOptions)
       .pipe(retry(2), catchError(this.handleError));
   }
-
+  getAllControls(): Observable<T[]> {
+    return this.http.get<T[]>(`${this.basePath}/sowings/controls`, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+  }
   protected resourcePathForProducts(sowingId: number): string {
     return `${this.basePath}/sowings/${sowingId}/products`;
   }
